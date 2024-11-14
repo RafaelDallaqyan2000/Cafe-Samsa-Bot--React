@@ -4,6 +4,10 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import {Icon, IconButton} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
+import SearchComponent from "./Components/Search/SearchComponent.jsx";
+import CategoriesComponent from "./Components/Categories/CategoriesComponent.jsx";
+import ItemsComponent from "./Components/Items/ItemsComponent.jsx";
+import ItemModal from "./Components/Items/ItemModal.jsx";
 
 
 function App() {
@@ -95,65 +99,15 @@ function App() {
 
   return (
       <>
-          <div>
-              <input style={{borderRadius: 50, color: 'white', padding: 10, marginRight: 5, width: '80%'}}
-                     placeholder={'Я ищу...'}/>
-              <button style={{borderRadius: 10, color: 'white', padding: 10}} onClick={() => {
-              }}> aaa
-              </button>
-          </div>
+          <SearchComponent/>
 
           <h1>Главная</h1>
 
-          <div className="categories-container">
-              {
-                  response.categories.map(item => {
-                      return <div key={item.id} className='categories'>
-                          <img src={item.image} alt="" width={81} height={81} loading={'lazy'}/>
-                          <p>{item.name}</p>
-                      </div>
-                  })
-              }
-          </div>
+          <CategoriesComponent categories={response?.categories} />
 
-          <div className="items-container">
-              {
-                  response.items.map(item => {
-                      return <div key={item.id} className='items' onClick={() => openItem(item)}>
-                          <img src={item.images[0]} width={'100%'} alt=""/>
-                          <p>{item.name}</p>
-                          {/*<p>{item.description}</p>*/}
-                          <p>{item.price}</p>
-                          <p>{item.category.name}</p>
-                      </div>
-                  })
-              }
-          </div>
+          <ItemsComponent items={response?.items} openItem={openItem} />
 
-          <Modal
-              open={modalVisible}
-              onClose={()=>setModalVisible(false)}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-              onAbort={() => setModalVisible(false)}
-
-          >
-              <div className='modal'>
-                  <div style={{padding:20}}>
-                      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                          <CloseIcon color="white" onClick={() => setModalVisible(false)}/>
-                      </div>
-                      <div style={{display: 'flex', justifyContent: 'center'}}>
-                          <img src={selectedItem?.images[0]} alt="" loading={'lazy'}/>
-                      </div>
-                      <p>{selectedItem?.price}</p>
-                      <p>{selectedItem?.name}</p>
-                      <p>{selectedItem?.category?.name}</p>
-                      <div style={{borderWidth: 1}}></div>
-                      <p>{selectedItem?.description}</p>
-                  </div>
-              </div>
-          </Modal>
+          <ItemModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectedItem={selectedItem} />
       </>
   )
 }
