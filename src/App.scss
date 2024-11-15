@@ -28,7 +28,8 @@
 .App {
   background-color: #212529;
   padding: 16px 0;
-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+  height: 100vh;
 
   .home-page__container {
     .header__container {
