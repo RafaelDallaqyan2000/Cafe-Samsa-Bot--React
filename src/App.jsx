@@ -1,5 +1,5 @@
 import './App.css'
-import React from "react";
+import React, {useEffect} from "react";
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import {Icon, IconButton} from "@mui/material";
@@ -8,14 +8,20 @@ import SearchComponent from "./Components/Search/SearchComponent.jsx";
 import CategoriesComponent from "./Components/Categories/CategoriesComponent.jsx";
 import ItemsComponent from "./Components/Items/ItemsComponent.jsx";
 import ItemModal from "./Components/Items/ItemModal.jsx";
+import CartComponent from "./Components/Cart/CartComponent.jsx";
+import CartModal from "./Components/Cart/CartModal.jsx";
 
 
 function App() {
 
     const [modalVisible, setModalVisible] = React.useState(false);
+    const [cartModalVisible, setCartModalVisible] = React.useState(false);
     const [selectedItem, setSelectedItem] = React.useState(null);
+    const [result, setResult] = React.useState(null);
 
-    const response = JSON.parse(`{
+    useEffect(() => {
+
+        localStorage.setItem('result', `{
         "items": [
             {
                 "id": 1,
@@ -89,12 +95,20 @@ function App() {
                 "image": "../public/images/napitki.jpg"
             }
         ]
-    }`)
+    }`);
+
+        setResult(JSON.parse(localStorage.getItem('result')));
+
+        }, []);
 
 
     const openItem = (item) => {
         setSelectedItem(item);
         setModalVisible(true);
+    }
+
+    const openCart = () => {
+        setCartModalVisible(true);
     }
 
   return (
@@ -103,11 +117,15 @@ function App() {
 
           <h1>Главная</h1>
 
-          <CategoriesComponent categories={response?.categories} />
+          <CategoriesComponent categories={result?.categories}/>
 
-          <ItemsComponent items={response?.items} openItem={openItem} />
+          <ItemsComponent items={result?.items} openItem={openItem}/>
 
-          <ItemModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectedItem={selectedItem} />
+          <ItemModal modalVisible={modalVisible} setModalVisible={setModalVisible} selectedItem={selectedItem}/>
+
+          <CartComponent openCart={openCart}/>
+
+          <CartModal cartModalVisible={cartModalVisible} setCartModalVisible={setCartModalVisible}/>
       </>
   )
 }

@@ -1,0 +1,17 @@
+.cart{
+    border-radius: 15px;
+    background-color: #8f40e8;
+    width: 100%;
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.add-to-cart{
+    border-radius: 100px;
+    background-color: #8f40e8;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
