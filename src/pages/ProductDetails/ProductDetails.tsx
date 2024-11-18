@@ -1,0 +1,55 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import "./productStyles.scss";
+
+export default function ProductDetails() {
+  const [productData, setProductData] = useState({
+    img: "https://samsa.ucoz.ae/_sh/00/24b.jpg?v=468",
+    title: "Тирамису",
+    price: "450",
+    description: "Десерты",
+    category: "",
+    id: "",
+  });
+  const navigate = useNavigate();
+  const { productId } = useParams();
+
+  useEffect(() => {
+    axios
+      .get("https://google.com")
+      .then((res) => {
+        // setProductData(res.data.data);
+        return res.data.data;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  //@ts-ignore
+  const goBack = (e: any) => {
+    e?.stopPropagination();
+    navigate("/home");
+  };
+
+  const handleClickToBusket = () => {
+    navigate(`/basket/${productId}`, {
+      state: { productId },
+    });
+  };
+
+  return (
+    <div onClick={goBack} className="product-details__container">
+      <div className="image__container">
+        <img src={productData.img} />
+        <div className="text__container">
+          <h1>{productData.price}</h1>
+          <p className="title">{productData.title}</p>
+          <p>{productData.description}</p>
+        </div>
+      </div>
+      <button onClick={handleClickToBusket}>В корзину</button>
+    </div>
+  );
+}

@@ -1,8 +1,8 @@
 import "./productStyles.css";
 
-export default function EveryProduct({ product, openItem }: any) {
+export default function EveryProduct({ product, onClick }: any) {
   return (
-    <div key={product.id} className="items" onClick={() => openItem(product)}>
+    <div className="items" onClick={() => onClick(product)}>
       <img src={product.images[0]} width={"100%"} alt="" />
       <div>
         <p>{product.name}</p>

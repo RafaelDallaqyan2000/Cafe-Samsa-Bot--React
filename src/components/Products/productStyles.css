@@ -23,6 +23,7 @@
     width: 160px;
     height: 329px;
     overflow: hidden; 
+    background-color: #1F242B;
 }
 
 .items img {

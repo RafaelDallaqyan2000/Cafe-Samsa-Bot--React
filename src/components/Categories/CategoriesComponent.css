@@ -14,6 +14,7 @@
     width: 100px;
     height: 129px;
     overflow: hidden;
+    background-color: #1F242B;
 }
 
 .categories-container::-webkit-scrollbar {
