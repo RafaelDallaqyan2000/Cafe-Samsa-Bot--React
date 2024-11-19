@@ -28,7 +28,7 @@ export default function BasketProduct({
         </div>
       </div>
       <div>
-        <button>Remove from basket</button>
+        <button>X</button>
       </div>
     </div>
   );

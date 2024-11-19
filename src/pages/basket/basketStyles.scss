@@ -4,21 +4,40 @@
     justify-content: space-between;
     height: 100%;
     min-height: 100dvh;
+
+    .busket__first_child {
+        font-size: 12px;
+        padding: 0 16px;
+    }
+    
     .header {
+        background-color: #1E1F25;
         display: flex;
         justify-content: space-between;
         padding: 8px 16px;
         margin-bottom: 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        width: 100%;
 
         h2 {
             display: inline-block;
+            color: #ededed;
+            flex-grow: 1;
+            font-size: 17px;
+            line-height: 1.29;
+            text-align: left;
         }
 
         button {
-            border: 1px solid #FFF;
-            padding: 5px;
+            // border: 1px solid #FFF;
+            font-size: 14px;
+            padding: 10px 20px;
             border-radius: 15px;
-            background-color: #8c35de;
+            box-shadow: 4px 2px 13px -3px #8ebfef, -6px -4px 6px 0 rgb(0 0 0 / 51%);
+            // font: inherit;
 
             &:active {
                 background-color: #6b18b8;
@@ -26,31 +45,50 @@
         }
     }
 
-    .footer {
-        background-color: red;
+    // .footer {
+    //     background-color: red;
+
+    .description {
+        position: sticky;
+        bottom: 0px;
+        background-color: #1E1F25;
+        width: 100%;
     }
+    .contact-info {
+        padding: 0 16px;
+    }
+    // }
 }
 
+.busket-items_container {
+    margin-top: 80px;
 
-.basket-product__container {
-    margin: 10px;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
+    .basket-product__container {
+        margin: 10px 0;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        // background-color: red;
+        border-radius: 10px;
+        box-shadow: -8px -8px 10px 0px rgba(0,0,0,0.75), -5px -2px 10px -8px rgba(255,255,255,0.59) inset, 1px 0px 0px 1px rgba(0,0,0,0.59) inset;
+        
+        .body {
+            margin-left: 15px;
 
-    .body {
-        margin-left: 15px;
+            .btn__container {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                // background-color: rgb(33, 33, 33);
+                padding: 5px;
+                border-radius: 40px;
+                box-shadow: -8px -8px 10px 0px rgba(0,0,0,0.75), -5px -2px 10px -8px rgba(255,255,255,0.59) inset, 1px 0px 0px 1px rgba(0,0,0,0.59) inset;
+                // padding: 5px;
 
-        .btn__container {
-            display: flex;
-            gap: 10px;
-            background-color: green;
-            padding: 5px;
-            // padding: 5px;
-
-            button {
-                font-size: 20px;
-                margin: 0 13px;
+                button {
+                    font-size: 20px;
+                    margin: 0 13px;
+                }
             }
         }
     }

@@ -12,30 +12,36 @@ export default function Basket() {
 
   return (
     <div className="busket__container">
-      <div>
+      <div className="busket__first_child">
         <div className="header">
           <h2>Корзина</h2>
           <button onClick={continueBuyingClick}>Продолжить покупки</button>
         </div>
-        {[
-          { title: "Banan", count: 1, price: 1000 },
-          { title: "Elak", count: 3, price: 7000 },
-        ].map((e) => {
-          return <BasketProduct product={e} />;
-        })}
-      </div>
-      <div className="footer">
+        <div className="busket-items_container">
+          {[
+            { id: 1, title: "Banan", count: 1, price: 1000 },
+            { id: 2, title: "Elak", count: 3, price: 7000 },
+            { id: 3, title: "Banan", count: 1, price: 1000 },
+            { id: 4, title: "Elak", count: 3, price: 7000 },
+            { id: 5, title: "Banan", count: 1, price: 1000 },
+            { id: 6, title: "Elak", count: 3, price: 7000 },
+          ].map((e) => {
+            return <BasketProduct key={e.id} product={e} />;
+          })}
+        </div>
         <p className="count">В корзине 5 товаров</p>
         <h3 className="price">Итого: 1340</h3>
         <p className="description">
           Заказы принимаются только в рабочие часы. Работаем с 09:00 до 20:00
           вечера. Спасибо!
         </p>
-        <p className="contact-info">
-          <p>Контактный телефон</p>
-          <p>+201118287099</p>
-        </p>
       </div>
+      {/* <div className="footer"> */}
+      <p className="contact-info">
+        <p>Контактный телефон</p>
+        <p>+201118287099</p>
+      </p>
     </div>
+    // </div>
   );
 }
