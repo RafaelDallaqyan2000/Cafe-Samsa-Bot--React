@@ -1,4 +1,4 @@
-export const response = JSON.parse(`{
+export const response = `{
     "items": [
         {
             "id": 1,
@@ -72,4 +72,31 @@ export const response = JSON.parse(`{
             "image": "../public/images/napitki.jpg"
         }
     ]
-}`);
+}`;
+
+export enum MethodType
+{
+    GET = 'GET', POST = 'POST', PUT = 'PUT', DELETE = 'DELETE'
+}
+
+
+export const request = (method: MethodType, requestUrl:string, body:string, callback = (result:any) => {}) => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+        body
+    });
+
+    const requestOptions = {
+        method: method,
+        headers: myHeaders,
+        body: raw,
+    };
+    const url = 'https://24autoposter.ru/vkusnaya_argentina/shop/' + requestUrl;
+
+    fetch(url, requestOptions)
+        .then((response) => response.json())
+        .then((result) => callback(result))
+        .catch((error) => console.error(error));
+}

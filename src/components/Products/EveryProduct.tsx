@@ -1,6 +1,8 @@
 import "./productStyles.css";
+import {AddToCartComponent} from "../Cart/CartComponent";
+import React from "react";
 
-export default function EveryProduct({ product, openItem }: any) {
+export default function EveryProduct({ product, openItem, getCartTotal }: any) {
   return (
     <div key={product.id} className="items" onClick={() => openItem(product)}>
       <img src={product.images[0]} width={"100%"} alt="" />
@@ -10,6 +12,7 @@ export default function EveryProduct({ product, openItem }: any) {
         <p>{product.price}</p>
         <p>{product.category.name}</p>
       </div>
+        <AddToCartComponent product={product} getCartTotal={getCartTotal}/>
     </div>
   );
 }
