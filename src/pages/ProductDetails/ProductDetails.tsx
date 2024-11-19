@@ -1,30 +1,25 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import "./productStyles.scss";
 
 export default function ProductDetails() {
+  const { state } = useLocation();
+
   const [productData, setProductData] = useState({
-    img: "https://samsa.ucoz.ae/_sh/00/24b.jpg?v=468",
-    title: "Тирамису",
-    price: "450",
-    description: "Десерты",
-    category: "",
-    id: "",
+    img: state.img[0],
+    title: state.itemName,
+    price: state.price,
+    description: state.description,
+    category: state.category,
+    id: state.id,
   });
   const navigate = useNavigate();
-  const { productId } = useParams();
+
+
 
   useEffect(() => {
-    axios
-      .get("https://google.com")
-      .then((res) => {
-        // setProductData(res.data.data);
-        return res.data.data;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+
   }, []);
 
   //@ts-ignore
@@ -34,8 +29,8 @@ export default function ProductDetails() {
   };
 
   const handleClickToBusket = () => {
-    navigate(`/basket/${productId}`, {
-      state: { productId },
+    navigate(`/basket/${state.id}`, {
+      state,
     });
   };
 
