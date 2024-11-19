@@ -29,7 +29,7 @@ export default function ProductDetails() {
 
   //@ts-ignore
   const goBack = (e: any) => {
-    e?.stopPropagination();
+    e?.stopPropagation();
     navigate("/home");
   };
 
@@ -40,7 +40,14 @@ export default function ProductDetails() {
   };
 
   return (
-    <div onClick={goBack} className="product-details__container">
+    <div className="product-details__container">
+      <button onClick={goBack} className="close-icon__container">
+        <img
+          src={require("../../images/closeIcon.svg").default}
+          width={20}
+          height={50}
+        />
+      </button>
       <div className="image__container">
         <img src={productData.img} />
         <div className="text__container">
@@ -49,7 +56,9 @@ export default function ProductDetails() {
           <p>{productData.description}</p>
         </div>
       </div>
-      <button onClick={handleClickToBusket}>В корзину</button>
+      <button className="add-to-busket__button" onClick={handleClickToBusket}>
+        В корзину
+      </button>
     </div>
   );
 }

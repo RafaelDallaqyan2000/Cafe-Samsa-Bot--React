@@ -7,9 +7,9 @@ const SearchComponent = () => {
         <img src={require("../../images/search.svg").default} width={15} />
         <input placeholder={"Я ищу..."} />
       </label>
-      <button className="burger__button">
+      {/* <button className="burger__button">
         <img src={require("../../images/burger.svg").default} />
-      </button>
+      </button> */}
     </div>
   );
 };
