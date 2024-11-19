@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import EveryProduct from "./EveryProduct";
-import "./productStyles.css";
+import "./productStyles.scss";
 
 type ItemsComponentType = {
   items: any;

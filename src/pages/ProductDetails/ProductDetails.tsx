@@ -41,7 +41,18 @@ export default function ProductDetails() {
 
   return (
     <div className="product-details__container">
-      <button onClick={goBack} className="close-icon__container">
+      <button
+        onClick={goBack}
+        className="close-icon__container"
+        onTouchStart={(e) => {
+          //@ts-ignore
+          e.target.style.boxShadow = "none";
+        }}
+        onTouchEnd={(e) => {
+          //@ts-ignore
+          e.target.style.boxShadow = "-6px -4px 6px 0 rgb(0 0 0/51%)";
+        }}
+      >
         <img
           src={require("../../images/closeIcon.svg").default}
           width={20}
