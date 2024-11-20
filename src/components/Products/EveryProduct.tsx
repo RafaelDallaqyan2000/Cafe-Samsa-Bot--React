@@ -29,25 +29,34 @@ export default function EveryProduct({ product, onClick }: any) {
   const handleClickIncrement = (e: any) => {
     e.stopPropagation();
     setIsLoading(true);
-    addToCart()
-    setCount((prev: number) => prev + 1);
-    setIsLoading(false);
+    setTimeout(() => {
+      addToCart()
+      setCount((prev: number) => prev + 1);
+      setIsLoading(false);
+    }, 1000)
+
+
   };
 
   const handleClickDecrement = (e: any) => {
     e.stopPropagation();
     setIsLoading(true);
+    setTimeout(() => {
     removeFromCart()
       setCount((prev: number) => prev - 1);
       setIsLoading(false);
+    }, 1000)
+
   };
 
   const handleClickAddToCart = (e: any) => {
     e.stopPropagation();
     setIsLoading(true);
-    addToCart()
-    setCount(1);
-    setIsLoading(false);
+    setTimeout(() => {
+      addToCart()
+      setCount(1);
+      setIsLoading(false);
+    }, 1000)
   };
 
   useLayoutEffect(() => {

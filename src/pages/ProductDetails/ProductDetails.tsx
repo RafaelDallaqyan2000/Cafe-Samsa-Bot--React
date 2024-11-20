@@ -83,7 +83,7 @@ export default function ProductDetails() {
         />
       </button>
       <div className="image__container">
-        <img src={productData.images[0]} />
+        <img src={productData.images[0]} style={{ width: "100%" , height: '300px', objectFit: "contain" }} />
         <div className="text__container">
           <h1>egp. {productData.price}</h1>
           <p className="title">{productData.name}</p>

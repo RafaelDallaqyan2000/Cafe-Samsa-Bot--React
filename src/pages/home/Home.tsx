@@ -15,7 +15,6 @@ function Home() {
   };
 
     const [categories, setCategories] = useState([])
-    const [allItems, setAllItems] = useState([])
     const [items, setItems] = useState([])
 
     const onSearch = (value: string) => {
@@ -35,7 +34,6 @@ function Home() {
     useEffect(() => {
         request(MethodType.GET, 'showcase/main', {}, response => {
             setCategories(response?.categories ?? initialData.categories ?? []);
-            setAllItems(response?.items);
             setItems(response?.items ?? initialData.items ?? []);
         })
     }, []);
