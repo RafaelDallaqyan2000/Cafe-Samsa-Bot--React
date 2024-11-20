@@ -34,27 +34,29 @@ export default function Basket() {
 
   return (
     <div className="busket__container">
-      <div>
+      <div className="busket__first_child">
         <div className="header">
           <h2>Корзина</h2>
           <button onClick={continueBuyingClick}>Продолжить покупки</button>
         </div>
+        <div className="busket-items_container">
         {cartItems.map((e: any) => {
           return <BasketProduct product={e} updateProduct={updateProduct} />;
         })}
       </div>
-      <div className="footer">
+
         <p className="count">В корзине {cartItems.map((item: any) => item.count).reduce( (a:number, b:number) =>  a + b, 0)} товаров</p>
         <h3 className="price">Итого: {cartItems.map((item: any) => item.price).reduce( (a:number, b:number) =>  a + b, 0)}</h3>
         <p className="description">
           Заказы принимаются только в рабочие часы. Работаем с 09:00 до 20:00
           вечера. Спасибо!
         </p>
-        <p className="contact-info">
-          <p>Контактный телефон</p>
-          <p>+201118287099</p>
-        </p>
       </div>
+      {/* <div className="footer"> */}
+      <p className="contact-info">
+        <p>Контактный телефон</p>
+        <p>+201118287099</p>
+      </p>
     </div>
   );
 }

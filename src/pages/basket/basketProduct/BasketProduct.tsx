@@ -15,6 +15,22 @@ export default function BasketProduct({
   };
     updateProduct: (product: any) => void
 }) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleClickIncrement = (e: any) => {
+    e.stopPropagation();
+    setIsLoading(true);
+      addToCart(product.count + 1);
+      setIsLoading(false);
+  };
+
+  const handleClickDecrement = (e: any) => {
+    e.stopPropagation();
+    setIsLoading(true);
+      addToCart(product.count - 1);
+      setIsLoading(false);
+  };
+
 
     const getCartData = (id: number = 0) => {
         const cart = JSON.parse(localStorage.getItem("cart") ?? '[]')
@@ -50,7 +66,7 @@ export default function BasketProduct({
 
   return (
     <div className="basket-product__container">
-      <div>
+      <div className="image_container">
         <img
           src={product.img}
           width={32}
@@ -60,21 +76,34 @@ export default function BasketProduct({
       <div className="body">
         <h3>{product.title}</h3>
         <p>{product.price}</p>
-        <div className="btn__container">
-          <button onClick={() => {
-              addToCart(product.count - 1);
-
-          }}>-</button>
-          <p>{product.count}</p>
-          <button onClick={() => {
-              addToCart(product.count + 1);
-          }}>+</button>
+        <div
+          className={`btn__container ${isLoading && "btn_container_isLoading"}`}
+        >
+          {isLoading ? (
+            <div className="loader"></div>
+          ) : (
+            <>
+              <button
+                onClick={handleClickDecrement}
+                className="decrement_button"
+              >
+                -
+              </button>
+              <p>{product.count}</p>
+              <button
+                onClick={handleClickIncrement}
+                className="increment_button"
+              >
+                +
+              </button>
+            </>
+          )}
         </div>
       </div>
-      <div>
-        <button onClick={()=>{
-            addToCart(0);
-        }}>Remove from basket</button>
+      <div className="close-icon__container">
+        <button>
+          <img src={require("../../../images/closeIcon.svg").default} />
+        </button>
       </div>
     </div>
   );
