@@ -55,6 +55,10 @@
     box-shadow: none !important;
   }
 
+  .loading_buttons {
+    background: linear-gradient(90deg, #8d27dc, #8d27dc);
+  }
+
   /* HTML: <div class="loader"></div> */
   .loader {
     width: 20px;

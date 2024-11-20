@@ -3,6 +3,7 @@ import CategoriesComponent from "../../components/Categories/CategoriesComponent
 import { response } from "../../data/data";
 import Products from "../../components/Products/Products";
 import "./homeStyles.css";
+import BusketButton from "../../components/BusketButton/BusketButton";
 
 function Home() {
   return (
@@ -17,6 +18,7 @@ function Home() {
 
         <Products items={response?.items} />
       </div>
+      <BusketButton busketCount={1} onClick={() => {}} />
     </div>
   );
 }
