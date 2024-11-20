@@ -1,66 +1,48 @@
 import "../basketStyles.scss";
 import {useState} from "react";
 import products from "../../../components/Products/Products";
+import {MethodType, request} from "../../../data/data";
 
 export default function BasketProduct({
-  product, updateProduct
+  product, setCart
 }: {
   product: {
-      id: number;
-    title: string;
-    price: number | string;
-    unitPrice: number | string;
-    count: number;
-    img: string;
+      item_id: number;
+      name: string;
+      price: number | string;
+      quantity: number;
+      image: string;
   };
-    updateProduct: (product: any) => void
+    setCart: (cart: any) => void
 }) {
   const [isLoading, setIsLoading] = useState(false);
+
+    const chatId = 795363892
 
   const handleClickIncrement = (e: any) => {
     e.stopPropagation();
     setIsLoading(true);
-      addToCart(product.count + 1);
+      addToCart();
       setIsLoading(false);
   };
 
   const handleClickDecrement = (e: any) => {
     e.stopPropagation();
     setIsLoading(true);
-      addToCart(product.count - 1);
+      removeFromCart();
       setIsLoading(false);
   };
 
+    const addToCart = () => {
+        request(MethodType.PUT, 'cart', {
+            "chat_id": chatId,
+            "item_id": product.item_id
+        }, result => setCart(result));
 
-    const getCartData = (id: number = 0) => {
-        const cart = JSON.parse(localStorage.getItem("cart") ?? '[]')
-
-        if(id !== 0) {
-            return cart?.find((item: any) => item.id === id);
-        }
-
-        return cart;
     }
 
-    const addToCart = (quantity: number) => {
-        const cartData = getCartData()
-        const productDataIndex = cartData.findIndex((item: any) => item.id === product.id);
-
-        if(productDataIndex > -1) {
-            if(quantity === 0){
-                cartData.splice(productDataIndex, 1)
-                updateProduct({...product, count: quantity, price: product.unitPrice as number  * quantity});
-            }
-            else {
-                cartData[productDataIndex].count = quantity;
-                cartData[productDataIndex].price = product.price as number  * quantity;
-                updateProduct({...product, count: quantity, price: product.unitPrice as number  * quantity});
-            }
-        }
-        else {
-            return;
-        }
-        localStorage.setItem("cart", JSON.stringify(cartData))
+    const removeFromCart = () => {
+        request(MethodType.DELETE, `cart/${chatId}/items/${product.item_id}`, {}, result => setCart(result));
     }
 
 
@@ -68,13 +50,13 @@ export default function BasketProduct({
     <div className="basket-product__container">
       <div className="image_container">
         <img
-          src={product.img}
+          src={product.image}
           width={32}
           height={32}
         />
       </div>
       <div className="body">
-        <h3>{product.title}</h3>
+        <h3>{product.name}</h3>
         <p>{product.price}</p>
         <div
           className={`btn__container ${isLoading && "btn_container_isLoading"}`}
@@ -89,7 +71,7 @@ export default function BasketProduct({
               >
                 -
               </button>
-              <p>{product.count}</p>
+              <p>{product.quantity}</p>
               <button
                 onClick={handleClickIncrement}
                 className="increment_button"

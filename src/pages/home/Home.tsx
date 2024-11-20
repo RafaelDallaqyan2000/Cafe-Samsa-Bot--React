@@ -15,13 +15,20 @@ function Home() {
             setCategories(response?.categories ?? []);
             setItems(response?.items ?? []);
         })
+        // if(value.length > 0){
+        //     setItems(items.filter((item: any) => item.name.includes(value)))
+        // }
+        // else {
+        //     setItems(allItems)
+        // }
     }
 
     const onCategorySelect = (category: string) => {
-        // request(MethodType.POST, 'showcase/main/category', {category}, response => {
-        //     setItems(response?.shopItems ?? []);
-        // })
-        setItems(allItems.filter((item:any) => item.category === category));
+        request(MethodType.POST, 'showcase/main/category', {category_id: category}, response => {
+            setItems(response?.shopItems ?? []);
+        })
+
+        // setItems(allItems.filter((item:any) => item.category?.id === category));
     }
 
     useEffect(() => {

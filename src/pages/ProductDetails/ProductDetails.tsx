@@ -1,25 +1,18 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
 import "./productStyles.scss";
+import {MethodType, request} from "../../data/data";
 
 export default function ProductDetails() {
   const { state } = useLocation();
 
-  const [productData, setProductData] = useState({
-    img: state.img[0],
-    title: state.itemName,
-    price: state.price,
-    description: state.description,
-    category: state.category,
-    id: state.id,
-  });
+  const [productData, setProductData] = useState(state);
   const navigate = useNavigate();
 
-
-
   useEffect(() => {
-
+    request(MethodType.POST, "showcase/item", {item_id: state.id}, result => {
+      setProductData(result)
+    })
   }, []);
 
   //@ts-ignore
@@ -55,10 +48,10 @@ export default function ProductDetails() {
         />
       </button>
       <div className="image__container">
-        <img src={productData.img} />
+        <img src={productData.images[0]} />
         <div className="text__container">
           <h1>{productData.price}</h1>
-          <p className="title">{productData.title}</p>
+          <p className="title">{productData.name}</p>
           <p>{productData.description}</p>
         </div>
       </div>

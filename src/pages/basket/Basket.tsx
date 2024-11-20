@@ -1,36 +1,30 @@
 import React, {useLayoutEffect, useState} from "react";
 import BasketProduct from "./basketProduct/BasketProduct";
 import {useLocation, useNavigate} from "react-router-dom";
+import {MethodType, request} from "../../data/data";
 
 export default function Basket() {
   const navigate = useNavigate();
-  const {state} = useLocation();
 
-  const [cartItems, setCartItems] = useState<any>([]);
+  const[cart, setCart] = useState<any>()
 
   const continueBuyingClick = () => {
     //... write code here to continue
     navigate("/home");
   };
 
-  useLayoutEffect(()=>{
-    const cart = JSON.parse(localStorage.getItem("cart") ?? '[]')
+  const chatId = 795363892
 
-    setCartItems(cart);
-  },[])
+  const getCartData = () => {
 
-  const updateProduct = (product: any) => {
-    const cartItemIndex = cartItems.findIndex((item: any) => item.id === product.id);
-    const updatedCartItems = [...cartItems];
-    if(product.count === 0){
-      updatedCartItems.splice(cartItemIndex, 1);
-    }
-    else{
-      updatedCartItems[cartItemIndex] = product;
-    }
-
-    setCartItems(updatedCartItems);
+    request(MethodType.POST, 'cart', {
+      chat_id: chatId
+    }, result => setCart(result))
   }
+
+  useLayoutEffect(()=>{
+    getCartData()
+  },[])
 
   return (
     <div className="busket__container">
@@ -40,13 +34,12 @@ export default function Basket() {
           <button onClick={continueBuyingClick}>Продолжить покупки</button>
         </div>
         <div className="busket-items_container">
-        {cartItems.map((e: any) => {
-          return <BasketProduct product={e} updateProduct={updateProduct} />;
+        {cart?.cartItems.map((e: any) => {
+          return <BasketProduct product={e} setCart={setCart} />;
         })}
       </div>
-
-        <p className="count">В корзине {cartItems.map((item: any) => item.count).reduce( (a:number, b:number) =>  a + b, 0)} товаров</p>
-        <h3 className="price">Итого: {cartItems.map((item: any) => item.price).reduce( (a:number, b:number) =>  a + b, 0)}</h3>
+        <p className="count">В корзине {cart?.total_quantity} товаров</p>
+        <h3 className="price">Итого: {cart?.total_price}</h3>
         <p className="description">
           Заказы принимаются только в рабочие часы. Работаем с 09:00 до 20:00
           вечера. Спасибо!

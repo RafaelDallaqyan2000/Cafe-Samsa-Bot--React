@@ -83,9 +83,9 @@ export enum MethodType
 export const request = (method: MethodType, requestUrl:string, body: any, callback = (result:any) => {}) => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    const raw = JSON.stringify({
+    const raw = JSON.stringify(
         body
-    });
+    );
 
     interface requestOptionsType {
         method?: MethodType,
@@ -98,7 +98,9 @@ export const request = (method: MethodType, requestUrl:string, body: any, callba
     if(method !== MethodType.GET) {
         requestOptions.body = raw;
     }
-    const url = 'https://24autoposter.ru/vkusnaya_argentina/shop/' + requestUrl;
+    // const url = 'https://24autoposter.ru/vkusnaya_argentina/shop/' + requestUrl;
+    const url = 'http://localhost:4000/api/' + requestUrl;
+
     fetch(url, requestOptions)
         .then((response) => response.json())
         .then((result) => callback(result))

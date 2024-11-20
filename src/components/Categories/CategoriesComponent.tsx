@@ -3,11 +3,11 @@ import "./CategoriesComponent.css";
 import CategoryItem from "./CategoryItem/CategoryItem";
 
 const CategoriesComponent = ({ categories, onCategorySelect  }: any) => {
-  const [selectedCategory, setSelectedCategory] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState<any>();
 
   const handleSelectCategory = (category: any) => {
 
-    onCategorySelect(category.categoryName);
+    onCategorySelect(category?.id);
     setSelectedCategory(category);
   };
 
@@ -15,10 +15,10 @@ const CategoriesComponent = ({ categories, onCategorySelect  }: any) => {
     <div className="categories-container">
       {categories?.map((item: any) => (
         <CategoryItem
-          key={item.categoryName}
+          key={item?.id}
           category={item}
           onClick={handleSelectCategory}
-          isActive={item.categoryName === selectedCategory}
+          isActive={item?.id === selectedCategory?.id}
         />
       ))}
     </div>

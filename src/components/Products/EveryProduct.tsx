@@ -1,55 +1,35 @@
-import {useEffect, useLayoutEffect, useState} from "react";
+import {useLayoutEffect, useState} from "react";
 import "./productStyles.scss";
-import products from "./Products";
+import {MethodType, request} from "../../data/data";
 
 export default function EveryProduct({ product, onClick }: any) {
   const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getCartData = (id: number = 0) => {
-    const cart = JSON.parse(localStorage.getItem("cart") ?? '[]')
+  const chatId = 795363892
 
-    if(id !== 0) {
-      return cart?.find((item: any) => item.id === id);
-    }
+  const getCartData = () => {
 
-    return cart;
+    request(MethodType.POST, 'cart', {
+      chat_id: chatId
+    }, result => setCount(result.cartItems.find((item: any) => item.item_id === product.id)?.quantity ?? 0))
   }
 
-  const addToCart = (quantity: number) => {
-    const cartData = getCartData()
-    const productDataIndex = cartData.findIndex((item: any) => item.id === product.id);
+  const addToCart = () => {
+    request(MethodType.PUT, 'cart', {
+      "chat_id": chatId,
+      "item_id": product.id
+    }, () => {});
+  }
 
-    if(productDataIndex > -1) {
-      if(quantity === 0){
-        cartData.splice(productDataIndex, 1)
-      }
-      else {
-        cartData[productDataIndex].count = quantity;
-        cartData[productDataIndex].price = product.price * quantity;
-      }
-    }
-    else {
-      if(quantity === 0){
-        return
-      }
-      cartData.push({
-        id: product.id,
-        count: quantity,
-        title: product.itemName,
-        price: product.price * quantity,
-        img: product.img[0],
-        unitPrice: product.price,
-      })
-    }
-
-    localStorage.setItem("cart", JSON.stringify(cartData))
+  const removeFromCart = () => {
+    request(MethodType.DELETE, `cart/${chatId}/items/${product.id}`, {}, () => {});
   }
 
   const handleClickIncrement = (e: any) => {
     e.stopPropagation();
     setIsLoading(true);
-    addToCart(count + 1)
+    addToCart()
     setCount((prev: number) => prev + 1);
     setIsLoading(false);
   };
@@ -57,7 +37,7 @@ export default function EveryProduct({ product, onClick }: any) {
   const handleClickDecrement = (e: any) => {
     e.stopPropagation();
     setIsLoading(true);
-    addToCart(count - 1)
+    removeFromCart()
       setCount((prev: number) => prev - 1);
       setIsLoading(false);
   };
@@ -65,23 +45,23 @@ export default function EveryProduct({ product, onClick }: any) {
   const handleClickAddToCart = (e: any) => {
     e.stopPropagation();
     setIsLoading(true);
-    addToCart(1)
+    addToCart()
     setCount(1);
     setIsLoading(false);
   };
 
   useLayoutEffect(() => {
-    setCount(getCartData(product.id)?.count ?? 0)
+    getCartData()
   },[]);
 
   return (
     <div className="items" onClick={() => onClick(product)}>
-      <img src={product.img[0]} width={"100%"} alt="logo" />
+      <img src={product?.images[0]} width={"100%"} alt="logo" />
       <div className="body">
-        <p className="title">{product.itemName}</p>
+        <p className="title">{product.name}</p>
         {/*<p>{item.description}</p>*/}
         <p className="price">{product.price}</p>
-        <span className="category">{product.category}</span>
+        <span className="category">{product.category?.id}</span>
       </div>
       <div
         onClick={(e) => e.stopPropagation()}

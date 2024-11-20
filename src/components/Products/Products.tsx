@@ -20,7 +20,7 @@ const Products = ({ items }: ItemsComponentType) => {
           <EveryProduct
             onClick={handleProductClick}
             product={item}
-            key={item.id}
+            key={item?.id}
           />
         );
       })}
