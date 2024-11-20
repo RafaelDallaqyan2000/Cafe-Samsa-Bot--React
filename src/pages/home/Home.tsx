@@ -4,8 +4,15 @@ import { response } from "../../data/data";
 import Products from "../../components/Products/Products";
 import "./homeStyles.css";
 import BusketButton from "../../components/BusketButton/BusketButton";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
+
+  const handleClickBusketBtn = () => {
+    navigate("/busket");
+  };
+
   return (
     <div className="home-page__container">
       <div className="header__container">
@@ -18,7 +25,7 @@ function Home() {
 
         <Products items={response?.items} />
       </div>
-      <BusketButton busketCount={1} onClick={() => {}} />
+      <BusketButton busketCount={1} onClick={handleClickBusketBtn} />
     </div>
   );
 }

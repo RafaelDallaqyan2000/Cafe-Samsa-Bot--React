@@ -70,6 +70,10 @@ export default function ProductDetails() {
     }, 1000);
   };
 
+  const handleClickBusketBtn = () => {
+    navigate("/busket");
+  };
+
   return (
     <div className="product-details__container">
       <button
@@ -125,7 +129,7 @@ export default function ProductDetails() {
           </div>
         </div>
       )}
-      <BusketButton busketCount={1} onClick={() => {}} />
+      <BusketButton busketCount={1} onClick={handleClickBusketBtn} />
     </div>
   );
 }

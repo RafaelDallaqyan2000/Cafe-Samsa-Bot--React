@@ -48,14 +48,42 @@
     // .footer {
     //     background-color: red;
 
+
+    .price {
+        color: #ededed;
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 1.29;
+            margin: 8px 0;
+    }
+
     .description {
         position: sticky;
         bottom: 0px;
-        background-color: #1E1F25;
+        background-color: #212529;
         width: 100%;
+        padding: 10px 0;
     }
     .contact-info {
-        padding: 0 16px;
+        padding: 16px 24px;
+
+        .number_title {
+            color: #ededed;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: .26px;
+            line-height: 18px;
+            margin-bottom: 16px;
+        }
+
+        .number {
+            color: #ededed;
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 1.29;
+            margin: 8px 0;
+        }
+
     }
     // }
 }

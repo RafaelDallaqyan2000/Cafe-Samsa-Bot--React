@@ -38,8 +38,8 @@ export default function Basket() {
       </div>
       {/* <div className="footer"> */}
       <p className="contact-info">
-        <p>Контактный телефон</p>
-        <p>+201118287099</p>
+        <p className="number_title">Контактный телефон</p>
+        <p className="number">+201118287099</p>
       </p>
     </div>
     // </div>
