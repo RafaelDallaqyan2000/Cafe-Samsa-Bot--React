@@ -24,11 +24,13 @@ export default function BasketProduct({
 
   const handleClickDecrement = (e: any) => {
     e.stopPropagation();
-    setIsLoading(true);
-    setTimeout(() => {
-      setCount((prev) => prev - 1);
-      setIsLoading(false);
-    }, 1000);
+    if (count > 0) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setCount((prev) => prev - 1);
+        setIsLoading(false);
+      }, 1000);
+    }
   };
 
   return (
@@ -52,7 +54,8 @@ export default function BasketProduct({
             <>
               <button
                 onClick={handleClickDecrement}
-                className="decrement_button"
+                disabled={count === 1}
+                className={`decrement_button ${count === 1 && "disabled"}`}
               >
                 -
               </button>
