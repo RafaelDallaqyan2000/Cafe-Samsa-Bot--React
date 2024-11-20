@@ -22,15 +22,21 @@ export default function BasketProduct({
   const handleClickIncrement = (e: any) => {
     e.stopPropagation();
     setIsLoading(true);
-      addToCart();
+    setTimeout(() => {
+        addToCart();
       setIsLoading(false);
+    }, 1000);
   };
 
   const handleClickDecrement = (e: any) => {
     e.stopPropagation();
-    setIsLoading(true);
-      removeFromCart();
-      setIsLoading(false);
+    if (product.quantity > 0) {
+      setIsLoading(true);
+      setTimeout(() => {
+          removeFromCart();
+        setIsLoading(false);
+      }, 1000);
+    }
   };
 
     const addToCart = () => {
@@ -67,7 +73,8 @@ export default function BasketProduct({
             <>
               <button
                 onClick={handleClickDecrement}
-                className="decrement_button"
+                disabled={product.quantity === 1}
+                className={`decrement_button ${product.quantity === 1 && "disabled"}`}
               >
                 -
               </button>

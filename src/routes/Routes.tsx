@@ -18,9 +18,9 @@ export function Routes() {
         <Route path="/product-details">
           <Route path=":productId" Component={ProductDetails} />
         </Route>
-        <Route path="/basket">
-          <Route path=":productId" Component={Basket} />
-        </Route>
+        <Route path="/busket" Component={Basket} />
+        {/* <Route path=":productId" Component={Basket} /> */}
+        {/* </Route> */}
       </Route>
     )
   );

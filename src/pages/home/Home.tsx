@@ -3,9 +3,17 @@ import CategoriesComponent from "../../components/Categories/CategoriesComponent
 import {initialData, MethodType, request} from "../../data/data";
 import Products from "../../components/Products/Products";
 import "./homeStyles.css";
+import BusketButton from "../../components/BusketButton/BusketButton";
+import { useNavigate } from "react-router-dom";
 import {useEffect, useState} from "react";
 
 function Home() {
+  const navigate = useNavigate();
+
+  const handleClickBusketBtn = () => {
+    navigate("/busket");
+  };
+
     const [categories, setCategories] = useState([])
     const [allItems, setAllItems] = useState([])
     const [items, setItems] = useState([])
@@ -15,12 +23,6 @@ function Home() {
             setCategories(response?.categories ?? []);
             setItems(response?.items ?? []);
         })
-        // if(value.length > 0){
-        //     setItems(items.filter((item: any) => item.name.includes(value)))
-        // }
-        // else {
-        //     setItems(allItems)
-        // }
     }
 
     const onCategorySelect = (category: string) => {
@@ -28,7 +30,6 @@ function Home() {
             setItems(response?.shopItems ?? []);
         })
 
-        // setItems(allItems.filter((item:any) => item.category?.id === category));
     }
 
     useEffect(() => {
@@ -52,6 +53,7 @@ function Home() {
 
         <Products items={items} />
       </div>
+      <BusketButton busketCount={1} onClick={handleClickBusketBtn} />
     </div>
   );
 }

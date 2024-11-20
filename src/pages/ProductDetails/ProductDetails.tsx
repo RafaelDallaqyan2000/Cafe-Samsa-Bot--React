@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import "./productStyles.scss";
+import BusketButton from "../../components/BusketButton/BusketButton";
 import {MethodType, request} from "../../data/data";
 
 export default function ProductDetails() {
@@ -8,6 +9,9 @@ export default function ProductDetails() {
 
   const [productData, setProductData] = useState(state);
   const navigate = useNavigate();
+  const [itemInBusket, setItemInBusket] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [price, setPrice] = useState<any>(productData.price ?? 0);
 
   useEffect(() => {
     request(MethodType.POST, "showcase/item", {item_id: state.id}, result => {
@@ -21,10 +25,41 @@ export default function ProductDetails() {
     navigate("/home");
   };
 
-  const handleClickToBusket = () => {
-    navigate(`/basket/${state.id}`, {
-      state,
-    });
+  const handleClickToBusket = (e: any) => {
+    // navigate(`/basket/${productId}`, {
+    //   state: { productId },
+    e.stopPropagation();
+    setIsLoading(true);
+    setTimeout(() => {
+      setItemInBusket(1);
+      setIsLoading(false);
+      setPrice(+productData.price);
+    }, 1000);
+    // });
+  };
+
+  const handleClickIncrement = (e: any) => {
+    e.stopPropagation();
+    setIsLoading(true);
+    setTimeout(() => {
+      setItemInBusket((prev) => prev + 1);
+      setIsLoading(false);
+      setPrice((prev: any) => +prev + +productData.price);
+    }, 1000);
+  };
+
+  const handleClickDecrement = (e: any) => {
+    e.stopPropagation();
+    setIsLoading(true);
+    setTimeout(() => {
+      setItemInBusket((prev) => prev - 1);
+      setPrice((prev: any) => +prev - +productData.price);
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  const handleClickBusketBtn = () => {
+    navigate("/busket");
   };
 
   return (
@@ -50,14 +85,39 @@ export default function ProductDetails() {
       <div className="image__container">
         <img src={productData.images[0]} />
         <div className="text__container">
-          <h1>{productData.price}</h1>
+          <h1>egp. {productData.price}</h1>
           <p className="title">{productData.name}</p>
           <p>{productData.description}</p>
         </div>
       </div>
-      <button className="add-to-busket__button" onClick={handleClickToBusket}>
-        В корзину
-      </button>
+      {itemInBusket === 0 ? (
+        <button className="add-to-busket__button" onClick={handleClickToBusket}>
+          {isLoading ? (
+            <div className="loader"></div>
+          ) : (
+            `В корзину (${itemInBusket})`
+          )}
+        </button>
+      ) : (
+        <div className="add-to-busket__container">
+          <p>egp. {price}</p>
+
+          <div
+            className={`count_container ${itemInBusket && "loading_buttons"}`}
+          >
+            {isLoading ? (
+              <div className="loader"></div>
+            ) : (
+              <>
+                <button onClick={handleClickDecrement}>-</button>
+                <span>{itemInBusket}</span>
+                <button onClick={handleClickIncrement}>+</button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+      <BusketButton busketCount={1} onClick={handleClickBusketBtn} />
     </div>
   );
 }

@@ -1,5 +1,4 @@
 :root {
-
   --tgs-dark: #212529;
   --tgs-white-gradient: var(--tg-theme-secondary-bg-color);
   --tgs-white-gradient-elem: var(--tg-theme-secondary-bg-color);
@@ -22,7 +21,11 @@
   --tg-theme-secondary-bg-color: #1e1e22;
   --tg-color-scheme: light;
   --tg-theme-bg-color: #1d1a1a
+}
 
+
+* {
+  scrollbar-color:  rgba(90, 90, 90, 0.3) transparent;
 }
 
 .App {
@@ -51,17 +54,25 @@
     }
   }
 
+  .disabled {
+    box-shadow: none !important;
+  }
+
+  .loading_buttons {
+    background: linear-gradient(90deg, #8d27dc, #8d27dc);
+  }
+
   /* HTML: <div class="loader"></div> */
-.loader {
-  width: 20px;
-  height: 20px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 3px solid;
-  border-color: #ffffff #0000;
-  animation: l1 2s infinite;
-  margin-top: auto;;
-  margin-bottom: auto;
-}
-@keyframes l1 {to{transform: rotate(2turn)}}
+  .loader {
+    width: 20px;
+    height: 20px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 3px solid;
+    border-color: #ffffff #0000;
+    animation: l1 2s infinite;
+    margin-top: auto;;
+    margin-bottom: auto;
+  }
+  @keyframes l1 {to{transform: rotate(2turn)}}
 }
