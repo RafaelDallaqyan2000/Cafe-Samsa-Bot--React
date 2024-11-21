@@ -1,10 +1,11 @@
 import SearchComponent from "../../components/Search/SearchComponent";
 import CategoriesComponent from "../../components/Categories/CategoriesComponent";
-import { response } from "../../data/data";
+import {initialData, MethodType, request} from "../../data/data";
 import Products from "../../components/Products/Products";
 import "./homeStyles.css";
 import BusketButton from "../../components/BusketButton/BusketButton";
 import { useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react";
 
 function Home() {
   const navigate = useNavigate();
@@ -13,17 +14,42 @@ function Home() {
     navigate("/busket");
   };
 
+    const [categories, setCategories] = useState([])
+    const [items, setItems] = useState([])
+
+    const onSearch = (value: string) => {
+        request(MethodType.POST, 'showcase/main/search', {search_phrase: value}, response => {
+            setCategories(response?.categories ?? []);
+            setItems(response?.items ?? []);
+        })
+    }
+
+    const onCategorySelect = (category: string) => {
+        request(MethodType.POST, 'showcase/main/category', {category_id: category}, response => {
+            setItems(response?.shopItems ?? []);
+        })
+
+    }
+
+    useEffect(() => {
+        request(MethodType.GET, 'showcase/main', {}, response => {
+            setCategories(response?.categories ?? initialData.categories ?? []);
+            setItems(response?.items ?? initialData.items ?? []);
+        })
+    }, []);
+
+
   return (
     <div className="home-page__container">
       <div className="header__container">
-        <SearchComponent />
+        <SearchComponent onSearch={onSearch} />
       </div>
       <div className="home-page__body">
         <h2>Главная</h2>
 
-        <CategoriesComponent categories={response?.categories} />
+        <CategoriesComponent categories={categories} onCategorySelect={onCategorySelect} />
 
-        <Products items={response?.items} />
+        <Products items={items} />
       </div>
       <BusketButton busketCount={1} onClick={handleClickBusketBtn} />
     </div>

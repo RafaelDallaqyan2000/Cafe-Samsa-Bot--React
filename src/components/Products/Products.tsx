@@ -10,8 +10,7 @@ const Products = ({ items }: ItemsComponentType) => {
   const navigate = useNavigate();
 
   const handleProductClick = (item: any) => {
-    navigate("/product-details/1");
-    console.log(item);
+    navigate(`/product-details/{item.id}`,{state:item});
   };
 
   return (
@@ -21,7 +20,7 @@ const Products = ({ items }: ItemsComponentType) => {
           <EveryProduct
             onClick={handleProductClick}
             product={item}
-            key={item.id}
+            key={item?.id}
           />
         );
       })}

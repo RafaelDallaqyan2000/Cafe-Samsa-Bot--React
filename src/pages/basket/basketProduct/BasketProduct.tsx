@@ -1,49 +1,68 @@
-import { useState } from "react";
 import "../basketStyles.scss";
+import {useState} from "react";
+import products from "../../../components/Products/Products";
+import {MethodType, request} from "../../../data/data";
 
 export default function BasketProduct({
-  product,
+  product, setCart
 }: {
   product: {
-    title: string;
-    price: number | string;
-    count: number | string;
+      item_id: number;
+      name: string;
+      price: number | string;
+      quantity: number;
+      image: string;
   };
+    setCart: (cart: any) => void
 }) {
-  const [count, setCount] = useState(+product.count || 0);
   const [isLoading, setIsLoading] = useState(false);
+
+    const chatId = 795363892
 
   const handleClickIncrement = (e: any) => {
     e.stopPropagation();
     setIsLoading(true);
     setTimeout(() => {
-      setCount((prev) => prev + 1);
+        addToCart();
       setIsLoading(false);
     }, 1000);
   };
 
   const handleClickDecrement = (e: any) => {
     e.stopPropagation();
-    if (count > 0) {
+    if (product.quantity > 0) {
       setIsLoading(true);
       setTimeout(() => {
-        setCount((prev) => prev - 1);
+          removeFromCart();
         setIsLoading(false);
       }, 1000);
     }
   };
 
+    const addToCart = () => {
+        request(MethodType.PUT, 'cart', {
+            "chat_id": chatId,
+            "item_id": product.item_id
+        }, result => setCart(result));
+
+    }
+
+    const removeFromCart = () => {
+        request(MethodType.DELETE, `cart/${chatId}/items/${product.item_id}`, {}, result => setCart(result));
+    }
+
+
   return (
     <div className="basket-product__container">
       <div className="image_container">
         <img
-          src="https://samsa.ucoz.ae/_sh/00/24b.jpg?v=468"
+          src={product.image}
           width={32}
           height={32}
         />
       </div>
       <div className="body">
-        <h3>{product.title}</h3>
+        <h3>{product.name}</h3>
         <p>{product.price}</p>
         <div
           className={`btn__container ${isLoading && "btn_container_isLoading"}`}
@@ -54,12 +73,12 @@ export default function BasketProduct({
             <>
               <button
                 onClick={handleClickDecrement}
-                disabled={count === 1}
-                className={`decrement_button ${count === 1 && "disabled"}`}
+                disabled={product.quantity === 1}
+                className={`decrement_button ${product.quantity === 1 && "disabled"}`}
               >
                 -
               </button>
-              <p>{count}</p>
+              <p>{product.quantity}</p>
               <button
                 onClick={handleClickIncrement}
                 className="increment_button"

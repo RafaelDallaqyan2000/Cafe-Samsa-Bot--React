@@ -1,34 +1,22 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
 import "./productStyles.scss";
 import BusketButton from "../../components/BusketButton/BusketButton";
+import {MethodType, request} from "../../data/data";
 
 export default function ProductDetails() {
-  const [productData, setProductData] = useState({
-    img: "https://samsa.ucoz.ae/_sh/00/24b.jpg?v=468",
-    title: "Тирамису",
-    price: "450",
-    description: "Десерты",
-    category: "",
-    id: "",
-  });
+  const { state } = useLocation();
+
+  const [productData, setProductData] = useState(state);
   const navigate = useNavigate();
-  const { productId } = useParams();
   const [itemInBusket, setItemInBusket] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [price, setPrice] = useState<any>(productData.price ?? 0);
 
   useEffect(() => {
-    axios
-      .get("https://google.com")
-      .then((res) => {
-        // setProductData(res.data.data);
-        return res.data.data;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    request(MethodType.POST, "showcase/item", {item_id: state.id}, result => {
+      setProductData(result)
+    })
   }, []);
 
   //@ts-ignore
@@ -95,10 +83,10 @@ export default function ProductDetails() {
         />
       </button>
       <div className="image__container">
-        <img src={productData.img} />
+        <img src={productData.images[0]} style={{ width: "100%" , height: '300px', objectFit: "contain" }} />
         <div className="text__container">
           <h1>egp. {productData.price}</h1>
-          <p className="title">{productData.title}</p>
+          <p className="title">{productData.name}</p>
           <p>{productData.description}</p>
         </div>
       </div>

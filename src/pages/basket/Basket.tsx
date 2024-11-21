@@ -1,14 +1,30 @@
-import React from "react";
+import React, {useLayoutEffect, useState} from "react";
 import BasketProduct from "./basketProduct/BasketProduct";
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {MethodType, request} from "../../data/data";
 
 export default function Basket() {
   const navigate = useNavigate();
+
+  const[cart, setCart] = useState<any>()
 
   const continueBuyingClick = () => {
     //... write code here to continue
     navigate("/home");
   };
+
+  const chatId = 795363892
+
+  const getCartData = () => {
+
+    request(MethodType.POST, 'cart', {
+      chat_id: chatId
+    }, result => setCart(result))
+  }
+
+  useLayoutEffect(()=>{
+    getCartData()
+  },[])
 
   return (
     <div className="busket__container">
@@ -18,19 +34,12 @@ export default function Basket() {
           <button onClick={continueBuyingClick}>Продолжить покупки</button>
         </div>
         <div className="busket-items_container">
-          {[
-            { id: 1, title: "Banan", count: 1, price: 1000 },
-            { id: 2, title: "Elak", count: 3, price: 7000 },
-            { id: 3, title: "Banan", count: 1, price: 1000 },
-            { id: 4, title: "Elak", count: 3, price: 7000 },
-            { id: 5, title: "Banan", count: 1, price: 1000 },
-            { id: 6, title: "Elak", count: 3, price: 7000 },
-          ].map((e) => {
-            return <BasketProduct key={e.id} product={e} />;
-          })}
-        </div>
-        <p className="count">В корзине 5 товаров</p>
-        <h3 className="price">Итого: 1340</h3>
+        {cart?.cartItems.map((e: any) => {
+          return <BasketProduct product={e} setCart={setCart} />;
+        })}
+      </div>
+        <p className="count">В корзине {cart?.total_quantity} товаров</p>
+        <h3 className="price">Итого: {cart?.total_price}</h3>
         <p className="description">
           Заказы принимаются только в рабочие часы. Работаем с 09:00 до 20:00
           вечера. Спасибо!
@@ -42,6 +51,5 @@ export default function Basket() {
         <p className="number">+201118287099</p>
       </p>
     </div>
-    // </div>
   );
 }
