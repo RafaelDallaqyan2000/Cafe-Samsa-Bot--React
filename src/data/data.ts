@@ -74,35 +74,42 @@ export const initialData = JSON.parse(`{
     ]
 }`);
 
-
-export enum MethodType
-{
-    GET = 'GET', POST = 'POST', PUT = 'PUT', DELETE = 'DELETE'
+export enum MethodType {
+  GET = "GET",
+  POST = "POST",
+  PUT = "PUT",
+  DELETE = "DELETE",
 }
 
-export const request = (method: MethodType, requestUrl:string, body: any, callback = (result:any) => {}) => {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    const raw = JSON.stringify(
-        body
-    );
+export const request = (
+  method: MethodType,
+  requestUrl: string,
+  body: any,
+  callback = (result: any) => {}
+) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const raw = JSON.stringify(body);
 
-    interface requestOptionsType {
-        method?: MethodType,
-        headers?: Headers,
-        [key: string]: any
-    }
+  interface requestOptionsType {
+    method?: MethodType;
+    headers?: Headers;
+    [key: string]: any;
+  }
 
-    const requestOptions: requestOptionsType = {method: method, headers: myHeaders};
+  const requestOptions: requestOptionsType = {
+    method: method,
+    headers: myHeaders,
+  };
 
-    if(method !== MethodType.GET) {
-        requestOptions.body = raw;
-    }
-    const url = 'https://24autoposter.ru/vkusnaya_argentina/shop/' + requestUrl;
-    // const url = 'http://localhost:4000/api/' + requestUrl;
+  if (method !== MethodType.GET) {
+    requestOptions.body = raw;
+  }
+  const url = "https://24autoposter.ru/vkusnaya_argentina/shop/" + requestUrl;
+  // const url = 'http://localhost:4000/api/' + requestUrl;
 
-    fetch(url, requestOptions)
-        .then((response) => response.json())
-        .then((result) => callback(result))
-        .catch((error) => console.error(error));
-}
+  fetch(url, requestOptions)
+    .then((response) => response.json())
+    .then((result) => callback(result))
+    .catch((error) => console.error(error));
+};
