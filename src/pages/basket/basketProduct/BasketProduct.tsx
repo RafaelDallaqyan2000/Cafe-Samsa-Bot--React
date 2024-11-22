@@ -51,6 +51,10 @@ export default function BasketProduct({
         request(MethodType.DELETE, `cart/${chatId}/items/${product.item_id}`, {}, result => setCart(result));
     }
 
+    const removeProductFromCart = () => {
+        request(MethodType.DELETE, `cart/${chatId}/items/${product.item_id}/group`, {}, result => setCart(result));
+    }
+
 
   return (
     <div className="basket-product__container">
@@ -90,7 +94,7 @@ export default function BasketProduct({
         </div>
       </div>
       <div className="close-icon__container">
-        <button>
+        <button onClick={removeProductFromCart}>
           <img src={require("../../../images/closeIcon.svg").default} />
         </button>
       </div>

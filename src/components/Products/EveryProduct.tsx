@@ -2,7 +2,7 @@ import {useLayoutEffect, useState} from "react";
 import "./productStyles.scss";
 import {MethodType, request} from "../../data/data";
 
-export default function EveryProduct({ product, onClick }: any) {
+export default function EveryProduct({ product, onClick, cart, setCart }: any) {
   const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -10,20 +10,27 @@ export default function EveryProduct({ product, onClick }: any) {
 
   const getCartData = () => {
 
-    request(MethodType.POST, 'cart', {
-      chat_id: chatId
-    }, result => setCount(result.cartItems.find((item: any) => item.item_id === product.id)?.quantity ?? 0))
+    setCount(cart?.cartItems.find((item: any) => item.item_id === product.id)?.quantity ?? 0)
+    // request(MethodType.POST, 'cart', {
+    //   chat_id: chatId
+    // }, result => setCount(result.cartItems.find((item: any) => item.item_id === product.id)?.quantity ?? 0))
   }
 
   const addToCart = () => {
     request(MethodType.PUT, 'cart', {
       "chat_id": chatId,
       "item_id": product.id
-    }, () => {});
+    }, result => {
+      setCount(result?.cartItems.find((item: any) => item.item_id === product.id)?.quantity ?? 0)
+      setCart(result)
+    });
   }
 
   const removeFromCart = () => {
-    request(MethodType.DELETE, `cart/${chatId}/items/${product.id}`, {}, () => {});
+    request(MethodType.DELETE, `cart/${chatId}/items/${product.id}`, {}, result => {
+      setCount(result?.cartItems.find((item: any) => item.item_id === product.id)?.quantity ?? 0)
+      setCart(result)
+    });
   }
 
   const handleClickIncrement = (e: any) => {
@@ -31,7 +38,7 @@ export default function EveryProduct({ product, onClick }: any) {
     setIsLoading(true);
     setTimeout(() => {
       addToCart()
-      setCount((prev: number) => prev + 1);
+      // setCount((prev: number) => prev + 1);
       setIsLoading(false);
     }, 1000)
 
@@ -54,14 +61,14 @@ export default function EveryProduct({ product, onClick }: any) {
     setIsLoading(true);
     setTimeout(() => {
       addToCart()
-      setCount(1);
+      // setCount(1);
       setIsLoading(false);
     }, 1000)
   };
 
   useLayoutEffect(() => {
     getCartData()
-  },[]);
+  },[cart]);
 
   return (
     <div className="items" onClick={() => onClick(product)}>

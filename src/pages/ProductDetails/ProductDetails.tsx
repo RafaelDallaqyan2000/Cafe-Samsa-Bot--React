@@ -5,17 +5,29 @@ import BusketButton from "../../components/BusketButton/BusketButton";
 import {MethodType, request} from "../../data/data";
 
 export default function ProductDetails() {
-  const { state } = useLocation();
+  const { state }:any = useLocation();
 
   const [productData, setProductData] = useState(state);
   const navigate = useNavigate();
-  const [itemInBusket, setItemInBusket] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [price, setPrice] = useState<any>(productData.price ?? 0);
+  const [count, setCount] = useState(0);
+  const [cart, setCart] = useState<any>();
 
   useEffect(() => {
-    request(MethodType.POST, "showcase/item", {item_id: state.id}, result => {
+    request(MethodType.POST, "showcase/item", {item_id: state?.id}, result => {
       setProductData(result)
+    })
+  }, []);
+
+  useEffect(() => {
+    const chatId = 795363892
+
+    request(MethodType.POST, 'cart', {
+      chat_id: chatId
+    }, result => {
+      setCount(result?.cartItems.find((item: any) => item.item_id === productData.id)?.quantity ?? 0)
+      setCart(result)
     })
   }, []);
 
@@ -24,6 +36,24 @@ export default function ProductDetails() {
     e?.stopPropagation();
     navigate("/home");
   };
+  const chatId = 795363892
+
+  const addToCart = () => {
+    request(MethodType.PUT, 'cart', {
+      "chat_id": chatId,
+      "item_id": productData.id
+    }, result => {
+      setCount(result?.cartItems?.find((item: any) => item.item_id === productData.id)?.quantity ?? 0)
+      setCart(result)
+    });
+  }
+
+  const removeFromCart = () => {
+    request(MethodType.DELETE, `cart/${chatId}/items/${productData.id}`, {}, result => {
+      setCount(result?.cartItems?.find((item: any) => item.item_id === productData.id)?.quantity ?? 0)
+      setCart(result)
+    });
+  }
 
   const handleClickToBusket = (e: any) => {
     // navigate(`/basket/${productId}`, {
@@ -31,7 +61,7 @@ export default function ProductDetails() {
     e.stopPropagation();
     setIsLoading(true);
     setTimeout(() => {
-      setItemInBusket(1);
+      addToCart()
       setIsLoading(false);
       setPrice(+productData.price);
     }, 1000);
@@ -42,7 +72,7 @@ export default function ProductDetails() {
     e.stopPropagation();
     setIsLoading(true);
     setTimeout(() => {
-      setItemInBusket((prev) => prev + 1);
+      addToCart()
       setIsLoading(false);
       setPrice((prev: any) => +prev + +productData.price);
     }, 1000);
@@ -52,7 +82,7 @@ export default function ProductDetails() {
     e.stopPropagation();
     setIsLoading(true);
     setTimeout(() => {
-      setItemInBusket((prev) => prev - 1);
+      removeFromCart()
       setPrice((prev: any) => +prev - +productData.price);
       setIsLoading(false);
     }, 1000);
@@ -83,19 +113,19 @@ export default function ProductDetails() {
         />
       </button>
       <div className="image__container">
-        <img src={productData.images[0]} style={{ width: "100%" , height: '300px', objectFit: "contain" }} />
+        <img src={productData?.images?.as(0)} style={{ width: "100%" , height: '300px', objectFit: "contain" }} />
         <div className="text__container">
           <h1>egp. {productData.price}</h1>
           <p className="title">{productData.name}</p>
           <p>{productData.description}</p>
         </div>
       </div>
-      {itemInBusket === 0 ? (
+      {count === 0 ? (
         <button className="add-to-busket__button" onClick={handleClickToBusket}>
           {isLoading ? (
             <div className="loader"></div>
           ) : (
-            `В корзину (${itemInBusket})`
+            `В корзину (${count})`
           )}
         </button>
       ) : (
@@ -103,21 +133,21 @@ export default function ProductDetails() {
           <p>egp. {price}</p>
 
           <div
-            className={`count_container ${itemInBusket && "loading_buttons"}`}
+            className={`count_container ${count && "loading_buttons"}`}
           >
             {isLoading ? (
               <div className="loader"></div>
             ) : (
               <>
                 <button onClick={handleClickDecrement}>-</button>
-                <span>{itemInBusket}</span>
+                <span>{count}</span>
                 <button onClick={handleClickIncrement}>+</button>
               </>
             )}
           </div>
         </div>
       )}
-      <BusketButton busketCount={1} onClick={handleClickBusketBtn} />
+      <BusketButton busketCount={cart?.total_quantity} onClick={handleClickBusketBtn} />
     </div>
   );
 }
