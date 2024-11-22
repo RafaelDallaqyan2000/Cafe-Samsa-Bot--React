@@ -12,7 +12,7 @@ const Products = ({ items, cart, setCart }: ItemsComponentType) => {
   const navigate = useNavigate();
 
   const handleProductClick = (item: any) => {
-    navigate(`/product-details/${item.id}`,{state: {...item, cart: cart, setCart: setCart}});
+    navigate(`/product-details/${item.id}`,{state: {...item}});
   };
 
   return (

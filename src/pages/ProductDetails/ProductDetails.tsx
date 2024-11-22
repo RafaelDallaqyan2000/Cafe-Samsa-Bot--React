@@ -5,23 +5,31 @@ import BusketButton from "../../components/BusketButton/BusketButton";
 import {MethodType, request} from "../../data/data";
 
 export default function ProductDetails() {
-  const { state } = useLocation();
+  const { state }:any = useLocation();
 
   const [productData, setProductData] = useState(state);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [price, setPrice] = useState<any>(productData.price ?? 0);
   const [count, setCount] = useState(0);
+  const [cart, setCart] = useState<any>();
 
   useEffect(() => {
-    request(MethodType.POST, "showcase/item", {item_id: state.id}, result => {
+    request(MethodType.POST, "showcase/item", {item_id: state?.id}, result => {
       setProductData(result)
     })
   }, []);
 
   useEffect(() => {
-    setCount(state.cart?.cartItems.find((item: any) => item.item_id === productData.id)?.quantity ?? 0)
-  }, [state.cart]);
+    const chatId = 795363892
+
+    request(MethodType.POST, 'cart', {
+      chat_id: chatId
+    }, result => {
+      setCount(result?.cartItems.find((item: any) => item.item_id === productData.id)?.quantity ?? 0)
+      setCart(result)
+    })
+  }, []);
 
   //@ts-ignore
   const goBack = (e: any) => {
@@ -34,11 +42,17 @@ export default function ProductDetails() {
     request(MethodType.PUT, 'cart', {
       "chat_id": chatId,
       "item_id": productData.id
-    }, result => {state.setCart(result)});
+    }, result => {
+      setCount(result?.cartItems?.find((item: any) => item.item_id === productData.id)?.quantity ?? 0)
+      setCart(result)
+    });
   }
 
   const removeFromCart = () => {
-    request(MethodType.DELETE, `cart/${chatId}/items/${productData.id}`, {}, result => {state.setCart(result)});
+    request(MethodType.DELETE, `cart/${chatId}/items/${productData.id}`, {}, result => {
+      setCount(result?.cartItems?.find((item: any) => item.item_id === productData.id)?.quantity ?? 0)
+      setCart(result)
+    });
   }
 
   const handleClickToBusket = (e: any) => {
@@ -99,7 +113,7 @@ export default function ProductDetails() {
         />
       </button>
       <div className="image__container">
-        <img src={productData.images[0]} style={{ width: "100%" , height: '300px', objectFit: "contain" }} />
+        <img src={productData?.images?.as(0)} style={{ width: "100%" , height: '300px', objectFit: "contain" }} />
         <div className="text__container">
           <h1>egp. {productData.price}</h1>
           <p className="title">{productData.name}</p>
@@ -133,7 +147,7 @@ export default function ProductDetails() {
           </div>
         </div>
       )}
-      <BusketButton busketCount={state.cart?.total_quantity} onClick={handleClickBusketBtn} />
+      <BusketButton busketCount={cart?.total_quantity} onClick={handleClickBusketBtn} />
     </div>
   );
 }
