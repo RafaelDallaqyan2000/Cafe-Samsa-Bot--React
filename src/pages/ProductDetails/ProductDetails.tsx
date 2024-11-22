@@ -10,7 +10,7 @@ export default function ProductDetails() {
   const [productData, setProductData] = useState(state);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [price, setPrice] = useState<any>(productData.price ?? 0);
+  const [price, setPrice] = useState<any>(0);
   const [count, setCount] = useState(0);
   const [cart, setCart] = useState<any>();
 
@@ -21,16 +21,14 @@ export default function ProductDetails() {
   }, []);
 
   useEffect(() => {
-    setPrice(productData.price * (count === 0 ? 1 : count));
-  }, [productData.price]);
-
-  useEffect(() => {
     const chatId = 795363892
 
     request(MethodType.POST, 'cart', {
       chat_id: chatId
     }, result => {
-      setCount(result?.cartItems.find((item: any) => item.item_id === productData.id)?.quantity ?? 0)
+      const productCount = result?.cartItems.find((item: any) => item.item_id === productData.id)?.quantity ?? 0
+      setCount(productCount)
+      setPrice(productCount * productData.price)
       setCart(result)
     })
   }, []);
@@ -47,14 +45,18 @@ export default function ProductDetails() {
       "chat_id": chatId,
       "item_id": productData.id
     }, result => {
-      setCount(result?.cartItems?.find((item: any) => item.item_id === productData.id)?.quantity ?? 0)
+      const productCount = result?.cartItems.find((item: any) => item.item_id === productData.id)?.quantity ?? 0
+      setCount(productCount)
+      setPrice(productCount * productData.price)
       setCart(result)
     });
   }
 
   const removeFromCart = () => {
     request(MethodType.DELETE, `cart/${chatId}/items/${productData.id}`, {}, result => {
-      setCount(result?.cartItems?.find((item: any) => item.item_id === productData.id)?.quantity ?? 0)
+      const productCount = result?.cartItems.find((item: any) => item.item_id === productData.id)?.quantity ?? 0
+      setCount(productCount)
+      setPrice(productCount * productData.price)
       setCart(result)
     });
   }
@@ -67,7 +69,6 @@ export default function ProductDetails() {
     setTimeout(() => {
       addToCart()
       setIsLoading(false);
-      setPrice(productData.price * (count === 0 ? 1 : count));
     }, 1000);
     // });
   };
@@ -78,7 +79,6 @@ export default function ProductDetails() {
     setTimeout(() => {
       addToCart()
       setIsLoading(false);
-      setPrice(productData.price * (count === 0 ? 1 : count));
     }, 1000);
   };
 
@@ -87,7 +87,6 @@ export default function ProductDetails() {
     setIsLoading(true);
     setTimeout(() => {
       removeFromCart()
-      setPrice(productData.price * (count === 0 ? 1 : count));
       setIsLoading(false);
     }, 1000);
   };
