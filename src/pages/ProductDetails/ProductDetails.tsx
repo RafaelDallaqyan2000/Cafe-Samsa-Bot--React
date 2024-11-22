@@ -43,7 +43,7 @@ export default function ProductDetails() {
       "chat_id": chatId,
       "item_id": productData.id
     }, result => {
-      setProductData({...productData, price: result?.cartItems?.find((item: any) => item.item_id === productData.id)?.price ?? 0})
+      setCount({...productData, price: result?.cartItems?.find((item: any) => item.item_id === productData.id)?.quantity ?? 0})
       setCart(result)
     });
   }
