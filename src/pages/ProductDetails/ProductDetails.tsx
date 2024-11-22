@@ -43,7 +43,7 @@ export default function ProductDetails() {
       "chat_id": chatId,
       "item_id": productData.id
     }, result => {
-      setCount(result?.cartItems?.find((item: any) => item.item_id === productData.id)?.quantity ?? 0)
+      setProductData({...productData, price: result?.cartItems?.find((item: any) => item.item_id === productData.id)?.price ?? 0})
       setCart(result)
     });
   }
@@ -63,7 +63,7 @@ export default function ProductDetails() {
     setTimeout(() => {
       addToCart()
       setIsLoading(false);
-      setPrice(+productData.price);
+      setPrice(productData.price * count);
     }, 1000);
     // });
   };
@@ -74,7 +74,7 @@ export default function ProductDetails() {
     setTimeout(() => {
       addToCart()
       setIsLoading(false);
-      setPrice((prev: any) => +prev + +productData.price);
+      setPrice(productData.price * count);
     }, 1000);
   };
 
@@ -83,7 +83,7 @@ export default function ProductDetails() {
     setIsLoading(true);
     setTimeout(() => {
       removeFromCart()
-      setPrice((prev: any) => +prev - +productData.price);
+      setPrice(productData.price * count);
       setIsLoading(false);
     }, 1000);
   };
