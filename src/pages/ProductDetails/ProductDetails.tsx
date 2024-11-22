@@ -21,6 +21,10 @@ export default function ProductDetails() {
   }, []);
 
   useEffect(() => {
+    setPrice(productData.price * (count === 0 ? 1 : count));
+  }, [productData.price]);
+
+  useEffect(() => {
     const chatId = 795363892
 
     request(MethodType.POST, 'cart', {
@@ -63,7 +67,7 @@ export default function ProductDetails() {
     setTimeout(() => {
       addToCart()
       setIsLoading(false);
-      setPrice(productData.price * count);
+      setPrice(productData.price * (count === 0 ? 1 : count));
     }, 1000);
     // });
   };
@@ -74,7 +78,7 @@ export default function ProductDetails() {
     setTimeout(() => {
       addToCart()
       setIsLoading(false);
-      setPrice(productData.price * count);
+      setPrice(productData.price * (count === 0 ? 1 : count));
     }, 1000);
   };
 
@@ -83,7 +87,7 @@ export default function ProductDetails() {
     setIsLoading(true);
     setTimeout(() => {
       removeFromCart()
-      setPrice(productData.price * count);
+      setPrice(productData.price * (count === 0 ? 1 : count));
       setIsLoading(false);
     }, 1000);
   };
