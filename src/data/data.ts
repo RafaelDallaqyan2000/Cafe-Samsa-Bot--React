@@ -98,8 +98,9 @@ export const request = (method: MethodType, requestUrl:string, body: any, callba
     if(method !== MethodType.GET) {
         requestOptions.body = raw;
     }
-    const url = 'https://24autoposter.ru/vkusnaya_argentina/shop/' + requestUrl;
-    // const url = 'http://localhost:4000/api/' + requestUrl;
+
+    // const url = 'https://24autoposter.ru/vkusnaya_argentina/shop/' + requestUrl;
+    const url = 'http://localhost:4000/' + requestUrl;
 
     fetch(url, requestOptions)
         .then((response) => response.json())

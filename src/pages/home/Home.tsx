@@ -16,6 +16,7 @@ function Home() {
 
     const [categories, setCategories] = useState([])
     const [items, setItems] = useState([])
+    const [cart, setCart] = useState<any>()
 
     const onSearch = (value: string) => {
         request(MethodType.POST, 'showcase/main/search', {search_phrase: value}, response => {
@@ -36,7 +37,14 @@ function Home() {
             setCategories(response?.categories ?? initialData.categories ?? []);
             setItems(response?.items ?? initialData.items ?? []);
         })
-    }, []);
+
+        const chatId = 795363892
+
+        request(MethodType.POST, 'cart', {
+            chat_id: chatId
+        }, result => setCart(result))
+
+    }, [navigate]);
 
 
   return (
@@ -49,9 +57,9 @@ function Home() {
 
         <CategoriesComponent categories={categories} onCategorySelect={onCategorySelect} />
 
-        <Products items={items} />
+        <Products items={items} cart={cart} setCart={setCart} />
       </div>
-      <BusketButton busketCount={1} onClick={handleClickBusketBtn} />
+      <BusketButton busketCount={cart?.total_quantity} onClick={handleClickBusketBtn} />
     </div>
   );
 }

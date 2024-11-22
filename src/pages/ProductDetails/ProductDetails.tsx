@@ -9,9 +9,9 @@ export default function ProductDetails() {
 
   const [productData, setProductData] = useState(state);
   const navigate = useNavigate();
-  const [itemInBusket, setItemInBusket] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [price, setPrice] = useState<any>(productData.price ?? 0);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     request(MethodType.POST, "showcase/item", {item_id: state.id}, result => {
@@ -19,11 +19,27 @@ export default function ProductDetails() {
     })
   }, []);
 
+  useEffect(() => {
+    setCount(state.cart?.cartItems.find((item: any) => item.item_id === productData.id)?.quantity ?? 0)
+  }, [state.cart]);
+
   //@ts-ignore
   const goBack = (e: any) => {
     e?.stopPropagation();
     navigate("/home");
   };
+  const chatId = 795363892
+
+  const addToCart = () => {
+    request(MethodType.PUT, 'cart', {
+      "chat_id": chatId,
+      "item_id": productData.id
+    }, result => {state.setCart(result)});
+  }
+
+  const removeFromCart = () => {
+    request(MethodType.DELETE, `cart/${chatId}/items/${productData.id}`, {}, result => {state.setCart(result)});
+  }
 
   const handleClickToBusket = (e: any) => {
     // navigate(`/basket/${productId}`, {
@@ -31,7 +47,7 @@ export default function ProductDetails() {
     e.stopPropagation();
     setIsLoading(true);
     setTimeout(() => {
-      setItemInBusket(1);
+      addToCart()
       setIsLoading(false);
       setPrice(+productData.price);
     }, 1000);
@@ -42,7 +58,7 @@ export default function ProductDetails() {
     e.stopPropagation();
     setIsLoading(true);
     setTimeout(() => {
-      setItemInBusket((prev) => prev + 1);
+      addToCart()
       setIsLoading(false);
       setPrice((prev: any) => +prev + +productData.price);
     }, 1000);
@@ -52,7 +68,7 @@ export default function ProductDetails() {
     e.stopPropagation();
     setIsLoading(true);
     setTimeout(() => {
-      setItemInBusket((prev) => prev - 1);
+      removeFromCart()
       setPrice((prev: any) => +prev - +productData.price);
       setIsLoading(false);
     }, 1000);
@@ -90,12 +106,12 @@ export default function ProductDetails() {
           <p>{productData.description}</p>
         </div>
       </div>
-      {itemInBusket === 0 ? (
+      {count === 0 ? (
         <button className="add-to-busket__button" onClick={handleClickToBusket}>
           {isLoading ? (
             <div className="loader"></div>
           ) : (
-            `В корзину (${itemInBusket})`
+            `В корзину (${count})`
           )}
         </button>
       ) : (
@@ -103,21 +119,21 @@ export default function ProductDetails() {
           <p>egp. {price}</p>
 
           <div
-            className={`count_container ${itemInBusket && "loading_buttons"}`}
+            className={`count_container ${count && "loading_buttons"}`}
           >
             {isLoading ? (
               <div className="loader"></div>
             ) : (
               <>
                 <button onClick={handleClickDecrement}>-</button>
-                <span>{itemInBusket}</span>
+                <span>{count}</span>
                 <button onClick={handleClickIncrement}>+</button>
               </>
             )}
           </div>
         </div>
       )}
-      <BusketButton busketCount={1} onClick={handleClickBusketBtn} />
+      <BusketButton busketCount={state.cart?.total_quantity} onClick={handleClickBusketBtn} />
     </div>
   );
 }

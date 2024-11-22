@@ -4,13 +4,15 @@ import "./productStyles.scss";
 
 type ItemsComponentType = {
   items: any;
+  cart: any;
+  setCart: any;
 };
 
-const Products = ({ items }: ItemsComponentType) => {
+const Products = ({ items, cart, setCart }: ItemsComponentType) => {
   const navigate = useNavigate();
 
   const handleProductClick = (item: any) => {
-    navigate(`/product-details/{item.id}`,{state:item});
+    navigate(`/product-details/${item.id}`,{state: {...item, cart: cart, setCart: setCart}});
   };
 
   return (
@@ -21,6 +23,8 @@ const Products = ({ items }: ItemsComponentType) => {
             onClick={handleProductClick}
             product={item}
             key={item?.id}
+            cart={cart}
+            setCart={setCart}
           />
         );
       })}
