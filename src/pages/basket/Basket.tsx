@@ -1,30 +1,34 @@
-import React, {useLayoutEffect, useState} from "react";
-import BasketProduct from "./basketProduct/BasketProduct";
-import {useLocation, useNavigate} from "react-router-dom";
-import {MethodType, request} from "../../data/data";
+import React, { useLayoutEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { MethodType, request } from "../../data/data";
+import BasketProduct from "./BasketProduct/BasketProduct";
 
 export default function Basket() {
   const navigate = useNavigate();
 
-  const[cart, setCart] = useState<any>()
+  const [cart, setCart] = useState<any>();
 
   const continueBuyingClick = () => {
     //... write code here to continue
     navigate("/home");
   };
 
-  const chatId = 795363892
+  const chatId = 795363892;
 
   const getCartData = () => {
+    request(
+      MethodType.POST,
+      "cart",
+      {
+        chat_id: chatId,
+      },
+      (result) => setCart(result)
+    );
+  };
 
-    request(MethodType.POST, 'cart', {
-      chat_id: chatId
-    }, result => setCart(result))
-  }
-
-  useLayoutEffect(()=>{
-    getCartData()
-  },[])
+  useLayoutEffect(() => {
+    getCartData();
+  }, []);
 
   return (
     <div className="busket__container">
@@ -34,10 +38,10 @@ export default function Basket() {
           <button onClick={continueBuyingClick}>Продолжить покупки</button>
         </div>
         <div className="busket-items_container">
-        {cart?.cartItems.map((e: any) => {
-          return <BasketProduct product={e} setCart={setCart} />;
-        })}
-      </div>
+          {cart?.cartItems.map((e: any) => {
+            return <BasketProduct product={e} setCart={setCart} />;
+          })}
+        </div>
         <p className="count">В корзине {cart?.total_quantity} товаров</p>
         <h3 className="price">Итого: {cart?.total_price}</h3>
         <p className="description">

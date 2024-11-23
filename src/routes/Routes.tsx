@@ -4,10 +4,11 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import Home from "../pages/home/Home";
+import Home from "../pages/Home/Home";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import Basket from "../pages/basket/Basket";
 import Reditect from "./Reditect";
+import PlaceOrder from "../pages/PlaceOrder/PlaceOrder";
 
 export function Routes() {
   const routes = createBrowserRouter(
@@ -19,6 +20,7 @@ export function Routes() {
           <Route path=":productId" Component={ProductDetails} />
         </Route> */}
         <Route path="/busket" Component={Basket} />
+        <Route path="/placeOrder" Component={PlaceOrder} />
       </Route>
     )
   );
