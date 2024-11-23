@@ -15,12 +15,10 @@ export function Routes() {
       <Route>
         <Route path="/" element={<Reditect to="/home" children={<Home />} />} />
         <Route path="/home" Component={Home} />
-        <Route path="/product-details">
+        {/* <Route path="/product-details">
           <Route path=":productId" Component={ProductDetails} />
-        </Route>
+        </Route> */}
         <Route path="/busket" Component={Basket} />
-        {/* <Route path=":productId" Component={Basket} /> */}
-        {/* </Route> */}
       </Route>
     )
   );
