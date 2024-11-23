@@ -1,11 +1,11 @@
-import {useEffect, useState} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./productStyles.scss";
 import BusketButton from "../../components/BusketButton/BusketButton";
-import {MethodType, request} from "../../data/data";
+import { MethodType, request } from "../../data/data";
 
 export default function ProductDetails() {
-  const { state }:any = useLocation();
+  const { state }: any = useLocation();
 
   const [productData, setProductData] = useState(state);
   const navigate = useNavigate();
@@ -15,22 +15,34 @@ export default function ProductDetails() {
   const [cart, setCart] = useState<any>();
 
   useEffect(() => {
-    request(MethodType.POST, "showcase/item", {item_id: state?.id}, result => {
-      setProductData(result)
-    })
+    request(
+      MethodType.POST,
+      "showcase/item",
+      { item_id: state?.id },
+      (result) => {
+        setProductData(result);
+      }
+    );
   }, []);
 
   useEffect(() => {
-    const chatId = 795363892
+    const chatId = 795363892;
 
-    request(MethodType.POST, 'cart', {
-      chat_id: chatId
-    }, result => {
-      const productCount = result?.cartItems.find((item: any) => item.item_id === productData.id)?.quantity ?? 0
-      setCount(productCount)
-      setPrice(productCount * productData.price)
-      setCart(result)
-    })
+    request(
+      MethodType.POST,
+      "cart",
+      {
+        chat_id: chatId,
+      },
+      (result) => {
+        const productCount =
+          result?.cartItems.find((item: any) => item.item_id === productData.id)
+            ?.quantity ?? 0;
+        setCount(productCount);
+        setPrice(productCount * productData.price);
+        setCart(result);
+      }
+    );
   }, []);
 
   //@ts-ignore
@@ -38,28 +50,42 @@ export default function ProductDetails() {
     e?.stopPropagation();
     navigate("/home");
   };
-  const chatId = 795363892
+  const chatId = 795363892;
 
   const addToCart = () => {
-    request(MethodType.PUT, 'cart', {
-      "chat_id": chatId,
-      "item_id": productData.id
-    }, result => {
-      const productCount = result?.cartItems.find((item: any) => item.item_id === productData.id)?.quantity ?? 0
-      setCount(productCount)
-      setPrice(productCount * productData.price)
-      setCart(result)
-    });
-  }
+    request(
+      MethodType.PUT,
+      "cart",
+      {
+        chat_id: chatId,
+        item_id: productData.id,
+      },
+      (result) => {
+        const productCount =
+          result?.cartItems.find((item: any) => item.item_id === productData.id)
+            ?.quantity ?? 0;
+        setCount(productCount);
+        setPrice(productCount * productData.price);
+        setCart(result);
+      }
+    );
+  };
 
   const removeFromCart = () => {
-    request(MethodType.DELETE, `cart/${chatId}/items/${productData.id}`, {}, result => {
-      const productCount = result?.cartItems.find((item: any) => item.item_id === productData.id)?.quantity ?? 0
-      setCount(productCount)
-      setPrice(productCount * productData.price)
-      setCart(result)
-    });
-  }
+    request(
+      MethodType.DELETE,
+      `cart/${chatId}/items/${productData.id}`,
+      {},
+      (result) => {
+        const productCount =
+          result?.cartItems.find((item: any) => item.item_id === productData.id)
+            ?.quantity ?? 0;
+        setCount(productCount);
+        setPrice(productCount * productData.price);
+        setCart(result);
+      }
+    );
+  };
 
   const handleClickToBusket = (e: any) => {
     // navigate(`/basket/${productId}`, {
@@ -67,7 +93,7 @@ export default function ProductDetails() {
     e.stopPropagation();
     setIsLoading(true);
     setTimeout(() => {
-      addToCart()
+      addToCart();
       setIsLoading(false);
     }, 1000);
     // });
@@ -77,7 +103,7 @@ export default function ProductDetails() {
     e.stopPropagation();
     setIsLoading(true);
     setTimeout(() => {
-      addToCart()
+      addToCart();
       setIsLoading(false);
     }, 1000);
   };
@@ -86,7 +112,7 @@ export default function ProductDetails() {
     e.stopPropagation();
     setIsLoading(true);
     setTimeout(() => {
-      removeFromCart()
+      removeFromCart();
       setIsLoading(false);
     }, 1000);
   };
@@ -116,7 +142,10 @@ export default function ProductDetails() {
         />
       </button>
       <div className="image__container">
-        <img src={productData?.images?.length ? productData?.images[0] : ''} style={{width: "100%", height: '300px', objectFit: "contain"}}/>
+        <img
+          src={productData?.images?.length ? productData?.images[0] : ""}
+          style={{ width: "100%", height: "300px", objectFit: "contain" }}
+        />
         <div className="text__container">
           <h1>egp. {productData.price}</h1>
           <p className="title">{productData.name}</p>
@@ -125,19 +154,13 @@ export default function ProductDetails() {
       </div>
       {count === 0 ? (
         <button className="add-to-busket__button" onClick={handleClickToBusket}>
-          {isLoading ? (
-            <div className="loader"></div>
-          ) : (
-            `В корзину (${count})`
-          )}
+          {isLoading ? <div className="loader"></div> : `В корзину (${count})`}
         </button>
       ) : (
         <div className="add-to-busket__container">
           <p>egp. {price}</p>
 
-          <div
-            className={`count_container ${count && "loading_buttons"}`}
-          >
+          <div className={`count_container ${count && "loading_buttons"}`}>
             {isLoading ? (
               <div className="loader"></div>
             ) : (
@@ -150,7 +173,10 @@ export default function ProductDetails() {
           </div>
         </div>
       )}
-      <BusketButton busketCount={cart?.total_quantity} onClick={handleClickBusketBtn} />
+      <BusketButton
+        title={`КОРЗИНА (${cart?.total_quantity || 0})`}
+        onClick={handleClickBusketBtn}
+      />
     </div>
   );
 }

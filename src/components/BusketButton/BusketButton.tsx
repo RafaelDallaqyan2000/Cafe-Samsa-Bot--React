@@ -1,15 +1,15 @@
 import "./busketBtnStyles.scss";
 
 export default function BusketButton({
-  busketCount = 0,
   onClick = () => {},
+  title,
 }: {
-  busketCount: number;
+  title: any;
   onClick: () => void;
 }) {
   return (
     <div className="busket-btn__container">
-      <button onClick={onClick}>КОРЗИНА ({busketCount})</button>
+      <button onClick={onClick}>{title}</button>
     </div>
   );
 }

@@ -8,9 +8,14 @@ export default function Basket() {
 
   const [cart, setCart] = useState<any>();
 
-  const continueBuyingClick = () => {
+  const goToHome = () => {
     //... write code here to continue
     navigate("/home");
+  };
+
+  const continueBuying = () => {
+    //... write code here to continue
+    navigate("/placeOrder");
   };
 
   const chatId = 795363892;
@@ -35,15 +40,24 @@ export default function Basket() {
       <div className="busket__first_child">
         <div className="header">
           <h2>Корзина</h2>
-          <button onClick={continueBuyingClick}>Продолжить покупки</button>
+          <button onClick={goToHome}>Продолжить покупки</button>
         </div>
         <div className="busket-items_container">
           {cart?.cartItems.map((e: any) => {
             return <BasketProduct product={e} setCart={setCart} />;
           })}
         </div>
+        <div className="separator"></div>
         <p className="count">В корзине {cart?.total_quantity} товаров</p>
         <h3 className="price">Итого: {cart?.total_price}</h3>
+        <button onClick={continueBuying} className="to-order__button">
+          <span>К оформлению</span>
+          <img
+            src={require("../../images/right-arrow.svg").default}
+            width={15}
+            alt=""
+          />
+        </button>
         <p className="description">
           Заказы принимаются только в рабочие часы. Работаем с 09:00 до 20:00
           вечера. Спасибо!
