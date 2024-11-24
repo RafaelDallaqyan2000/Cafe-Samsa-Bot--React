@@ -1,6 +1,6 @@
-import React, { useLayoutEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { MethodType, request } from "../../data/data";
+import React, {useLayoutEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {isTimeInRange, MethodType, request} from "../../data/data";
 import BasketProduct from "./basketProduct/BasketProduct";
 
 export default function Basket() {
@@ -50,18 +50,20 @@ export default function Basket() {
         <div className="separator"></div>
         <p className="count">В корзине {cart?.total_quantity} товаров</p>
         <h3 className="price">Итого: {cart?.total_price}</h3>
-        <button onClick={continueBuying} className="to-order__button">
+        {isTimeInRange("09:00", "20:00") ?
+            <button onClick={continueBuying} className="to-order__button">
           <span>К оформлению</span>
           <img
-            src={require("../../images/right-arrow.svg").default}
-            width={15}
-            alt=""
+              src={require("../../images/right-arrow.svg").default}
+              width={15}
+              alt=""
           />
         </button>
-        <p className="description">
+            :
+          <p className="description">
           Заказы принимаются только в рабочие часы. Работаем с 09:00 до 20:00
           вечера. Спасибо!
-        </p>
+          </p>}
       </div>
       {/* <div className="footer"> */}
       <p className="contact-info">

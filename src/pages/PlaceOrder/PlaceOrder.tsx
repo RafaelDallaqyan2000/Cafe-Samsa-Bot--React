@@ -1,13 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import BusketButton from "../../components/BusketButton/BusketButton";
 import "./placeOrderStyles.scss";
+import {MethodType, request} from "../../data/data";
 
 export default function PlaceOrder() {
   const navigate = useNavigate();
 
   const goBack = () => navigate("/busket");
 
-  const handleSubmitOrder = () => {};
+  const chatId = 795363892;
+  const handleSubmitOrder = () => {
+      request(MethodType.POST, 'order', {chatId: chatId}, result => {
+        //
+      })
+  };
 
   return (
     <>
