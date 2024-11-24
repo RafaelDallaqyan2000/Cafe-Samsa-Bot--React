@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import BusketButton from "../../components/BusketButton/BusketButton";
-import { MethodType, request } from "../../data/data";
 import "./placeOrderStyles.scss";
+import { MethodType, request } from "../../data/data";
 
 export default function PlaceOrder({ userData }: { userData: { id: number } }) {
   const navigate = useNavigate();
