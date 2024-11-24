@@ -1,6 +1,6 @@
-import { Routes } from "./routes/Routes";
-import "./App.scss";
 import { useEffect, useState } from "react";
+import "./App.scss";
+import { Routes } from "./routes/Routes";
 
 function App() {
   const [userData, setUserData] = useState("");

@@ -4,10 +4,10 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import Basket from "../pages/basket/Basket";
-import Reditect from "./Reditect";
 import PlaceOrder from "../pages/PlaceOrder/PlaceOrder";
+import Basket from "../pages/basket/Basket";
 import Home from "../pages/home/Home";
+import Reditect from "./Reditect";
 
 export function Routes({ userData }: { userData: any }) {
   console.log(userData, "<<<");

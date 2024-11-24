@@ -1,11 +1,11 @@
-import SearchComponent from "../../components/Search/SearchComponent";
-import CategoriesComponent from "../../components/Categories/CategoriesComponent";
-import { initialData, MethodType, request } from "../../data/data";
-import Products from "../../components/Products/Products";
-import "./homeStyles.css";
-import BusketButton from "../../components/BusketButton/BusketButton";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import BusketButton from "../../components/BusketButton/BusketButton";
+import CategoriesComponent from "../../components/Categories/CategoriesComponent";
+import Products from "../../components/Products/Products";
+import SearchComponent from "../../components/Search/SearchComponent";
+import { initialData, MethodType, request } from "../../data/data";
+import "./homeStyles.css";
 
 function Home({ userData }: any) {
   const chatId = userData?.id;

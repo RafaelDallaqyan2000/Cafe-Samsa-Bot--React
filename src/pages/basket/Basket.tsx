@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { isTimeInRange, MethodType, request } from "../../data/data";
 import BasketProduct from "./basketProduct/BasketProduct";
@@ -43,7 +43,9 @@ export default function Basket({ userData }: any) {
         </div>
         <div className="busket-items_container">
           {cart?.cartItems.map((e: any) => {
-            return <BasketProduct product={e} setCart={setCart} />;
+            return (
+              <BasketProduct chatId={chatId} product={e} setCart={setCart} />
+            );
           })}
         </div>
         <div className="separator"></div>

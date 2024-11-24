@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./productStyles.scss";
 import BusketButton from "../../components/BusketButton/BusketButton";
 import { MethodType, request } from "../../data/data";
+import "./productStyles.scss";
 
-export default function ProductDetails() {
+export default function ProductDetails({ chatId }: { chatId: number }) {
   const { state }: any = useLocation();
 
   const [productData, setProductData] = useState(state);
@@ -26,8 +26,6 @@ export default function ProductDetails() {
   }, []);
 
   useEffect(() => {
-    const chatId = 795363892;
-
     request(
       MethodType.POST,
       "cart",
@@ -50,7 +48,6 @@ export default function ProductDetails() {
     e?.stopPropagation();
     navigate("/home");
   };
-  const chatId = 795363892;
 
   const addToCart = () => {
     request(
