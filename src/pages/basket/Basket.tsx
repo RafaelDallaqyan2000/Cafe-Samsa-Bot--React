@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MethodType, request } from "../../data/data";
-import BasketProduct from "./BasketProduct/BasketProduct";
+import BasketProduct from "./basketProduct/BasketProduct";
 
 export default function Basket() {
   const navigate = useNavigate();

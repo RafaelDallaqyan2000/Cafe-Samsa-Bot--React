@@ -7,7 +7,7 @@ import {
 import Basket from "../pages/basket/Basket";
 import Reditect from "./Reditect";
 import PlaceOrder from "../pages/PlaceOrder/PlaceOrder";
-import Home from "../pages/Home/Home";
+import Home from "../pages/home/Home";
 
 export function Routes() {
   const routes = createBrowserRouter(
