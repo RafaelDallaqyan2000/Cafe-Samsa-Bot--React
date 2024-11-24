@@ -28,9 +28,8 @@ function App() {
     return params;
   }
 
-  const params = parseUrlParams();
-
   useEffect(() => {
+    const params = parseUrlParams();
     if (params) {
       if (params.user) {
         try {
@@ -46,7 +45,7 @@ function App() {
     } else {
       console.error("Не удалось извлечь параметры из URL");
     }
-  }, [params]);
+  }, []);
 
   return (
     <div className="App">
