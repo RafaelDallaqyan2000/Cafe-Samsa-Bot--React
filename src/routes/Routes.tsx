@@ -4,11 +4,10 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import Home from "../pages/Home/Home";
-import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import Basket from "../pages/basket/Basket";
 import Reditect from "./Reditect";
 import PlaceOrder from "../pages/PlaceOrder/PlaceOrder";
+import Home from "../pages/Home/Home";
 
 export function Routes() {
   const routes = createBrowserRouter(
