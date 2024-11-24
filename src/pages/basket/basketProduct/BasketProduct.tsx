@@ -65,7 +65,6 @@ export default function BasketProduct({
 
         setIsLoading(true);
         axios.delete(`${url}cart/${chatId}/items/${product.item_id}`).then(result => {
-            console.log(result.data)
             setCart(result.data)
         }).finally(() => {
             setIsLoading(false);
@@ -81,7 +80,6 @@ export default function BasketProduct({
 
         setIsLoading(true);
         axios.delete(`${url}cart/${chatId}/items/${product.item_id}/group`).then(result => {
-            console.log(result.data)
             setCart(result.data)
         }).finally(() => {
             setIsLoading(false);

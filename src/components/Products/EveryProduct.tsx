@@ -53,7 +53,6 @@ export default function EveryProduct({ product, onClick, cart, setCart }: any) {
 
     setIsLoading(true);
     axios.delete(`${url}cart/${chatId}/items/${product.id}`).then(result => {
-      console.log(result.data)
       setCount(result?.data?.cartItems.find((item: any) => item.item_id === product.id)?.quantity ?? 0)
       setCart(result.data)
     }).finally(() => {
