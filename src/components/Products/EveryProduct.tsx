@@ -69,8 +69,8 @@ export default function EveryProduct({
       .delete(`${url}cart/${chatId}/items/${product.id}`)
       .then((result) => {
         setCount(
-          result?.data?.cartItems.find(
-            (item: any) => item.item_id === product.id
+          result?.data?.cartItems?.find(
+            (item: any) => item?.item_id === product?.id
           )?.quantity ?? 0
         );
         setCart(result.data);
