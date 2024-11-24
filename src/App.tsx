@@ -25,30 +25,30 @@ function App() {
     return params;
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    console.log("Начало выполнения скрипта");
-    console.log("window.location.href:", window.location.href);
+  // document.addEventListener("DOMContentLoaded", function () {
+  console.log("Начало выполнения скрипта");
+  console.log("window.location.href:", window.location.href);
 
-    const params = parseUrlParams();
+  const params = parseUrlParams();
 
-    if (params) {
-      console.log("Извлечённые параметры:", params);
+  if (params) {
+    console.log("Извлечённые параметры:", params);
 
-      if (params.user) {
-        try {
-          const userJson = decodeURIComponent(params.user);
-          const user = JSON.parse(userJson);
-          console.log("Данные пользователя:", user);
-        } catch (e) {
-          console.error("Ошибка при разборе данных пользователя:", e);
-        }
-      } else {
-        console.error("Параметр user отсутствует в tgWebAppData");
+    if (params.user) {
+      try {
+        const userJson = decodeURIComponent(params.user);
+        const user = JSON.parse(userJson);
+        console.log("Данные пользователя:", user);
+      } catch (e) {
+        console.error("Ошибка при разборе данных пользователя:", e);
       }
     } else {
-      console.error("Не удалось извлечь параметры из URL");
+      console.error("Параметр user отсутствует в tgWebAppData");
     }
-  });
+  } else {
+    console.error("Не удалось извлечь параметры из URL");
+  }
+  // });
 
   console.log("ssssssssssssssssssssssss");
 
