@@ -7,7 +7,9 @@ import BusketButton from "../../components/BusketButton/BusketButton";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-function Home() {
+function Home({ userData }: any) {
+  const chatId = userData?.id;
+
   const navigate = useNavigate();
 
   const handleClickBusketBtn = () => {
@@ -47,8 +49,6 @@ function Home() {
       setItems(response?.items ?? initialData.items ?? []);
     });
 
-    const chatId = 795363892;
-
     request(
       MethodType.POST,
       "cart",
@@ -72,7 +72,12 @@ function Home() {
           onCategorySelect={onCategorySelect}
         />
 
-        <Products items={items} cart={cart} setCart={setCart} />
+        <Products
+          chatId={userData?.id}
+          items={items}
+          cart={cart}
+          setCart={setCart}
+        />
       </div>
       <BusketButton
         title={`КОРЗИНА (${cart?.total_quantity || 0})`}

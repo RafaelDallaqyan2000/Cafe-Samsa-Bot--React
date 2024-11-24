@@ -6,9 +6,10 @@ type ItemsComponentType = {
   items: any;
   cart: any;
   setCart: any;
+  chatId: number;
 };
 
-const Products = ({ items, cart, setCart }: ItemsComponentType) => {
+const Products = ({ items, cart, setCart, chatId }: ItemsComponentType) => {
   const navigate = useNavigate();
 
   const handleProductClick = (item: any) => {
@@ -25,6 +26,7 @@ const Products = ({ items, cart, setCart }: ItemsComponentType) => {
             key={item?.id}
             cart={cart}
             setCart={setCart}
+            chatId={chatId}
           />
         );
       })}

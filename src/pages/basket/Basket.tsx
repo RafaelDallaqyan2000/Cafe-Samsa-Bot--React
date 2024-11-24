@@ -1,9 +1,10 @@
-import React, {useLayoutEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {isTimeInRange, MethodType, request} from "../../data/data";
+import React, { useLayoutEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { isTimeInRange, MethodType, request } from "../../data/data";
 import BasketProduct from "./basketProduct/BasketProduct";
 
-export default function Basket() {
+export default function Basket({ userData }: any) {
+  const chatId = userData?.id;
   const navigate = useNavigate();
 
   const [cart, setCart] = useState<any>();
@@ -17,8 +18,6 @@ export default function Basket() {
     //... write code here to continue
     navigate("/placeOrder");
   };
-
-  const chatId = 795363892;
 
   const getCartData = () => {
     request(
@@ -50,20 +49,21 @@ export default function Basket() {
         <div className="separator"></div>
         <p className="count">В корзине {cart?.total_quantity} товаров</p>
         <h3 className="price">Итого: {cart?.total_price}</h3>
-        {isTimeInRange("09:00", "20:00") ?
-            <button onClick={continueBuying} className="to-order__button">
-          <span>К оформлению</span>
-          <img
+        {isTimeInRange("09:00", "20:00") ? (
+          <button onClick={continueBuying} className="to-order__button">
+            <span>К оформлению</span>
+            <img
               src={require("../../images/right-arrow.svg").default}
               width={15}
               alt=""
-          />
-        </button>
-            :
+            />
+          </button>
+        ) : (
           <p className="description">
-          Заказы принимаются только в рабочие часы. Работаем с 09:00 до 20:00
-          вечера. Спасибо!
-          </p>}
+            Заказы принимаются только в рабочие часы. Работаем с 09:00 до 20:00
+            вечера. Спасибо!
+          </p>
+        )}
       </div>
       {/* <div className="footer"> */}
       <p className="contact-info">

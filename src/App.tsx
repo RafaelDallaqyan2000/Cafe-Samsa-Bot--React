@@ -1,7 +1,10 @@
 import { Routes } from "./routes/Routes";
 import "./App.scss";
+import { useState } from "react";
 
 function App() {
+  const [userData, setUserData] = useState("");
+
   function parseUrlParams() {
     const params: any = {};
     const parser = document.createElement("a");
@@ -25,19 +28,14 @@ function App() {
     return params;
   }
 
-  // document.addEventListener("DOMContentLoaded", function () {
-  console.log("Начало выполнения скрипта");
-  console.log("window.location.href:", window.location.href);
-
   const params = parseUrlParams();
 
   if (params) {
-    console.log("Извлечённые параметры:", params);
-
     if (params.user) {
       try {
         const userJson = decodeURIComponent(params.user);
         const user = JSON.parse(userJson);
+        setUserData(user);
         console.log("Данные пользователя:", user);
       } catch (e) {
         console.error("Ошибка при разборе данных пользователя:", e);
@@ -48,13 +46,10 @@ function App() {
   } else {
     console.error("Не удалось извлечь параметры из URL");
   }
-  // });
-
-  console.log("ssssssssssssssssssssssss");
 
   return (
     <div className="App">
-      <Routes />
+      <Routes userData={userData} />
     </div>
   );
 }
