@@ -1,12 +1,15 @@
 import {useLayoutEffect, useState} from "react";
 import "./productStyles.scss";
 import {MethodType, request} from "../../data/data";
+import axios from "axios";
 
 export default function EveryProduct({ product, onClick, cart, setCart }: any) {
   const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   const chatId = 795363892
+
+  const url = 'https://24autoposter.ru/vkusnaya_argentina/shop/';
 
   const getCartData = () => {
 
@@ -17,53 +20,61 @@ export default function EveryProduct({ product, onClick, cart, setCart }: any) {
   }
 
   const addToCart = () => {
-    request(MethodType.PUT, 'cart', {
+    // request(MethodType.PUT, 'cart', {
+    //   "chat_id": chatId,
+    //   "item_id": product.id
+    // }, result => {
+    //   setIsLoading(true);
+    //   setCount(result?.cartItems.find((item: any) => item.item_id === product.id)?.quantity ?? 0)
+    //   setCart(result)
+    //   setIsLoading(false);
+    // });
+
+    setIsLoading(true);
+    axios.put(`${url}cart`,{
       "chat_id": chatId,
       "item_id": product.id
-    }, result => {
-      setCount(result?.cartItems.find((item: any) => item.item_id === product.id)?.quantity ?? 0)
-      setCart(result)
-    });
+    }).then(result => {
+      setCount(result?.data?.cartItems.find((item: any) => item.item_id === product.id)?.quantity ?? 0)
+      setCart(result.data)
+    }).finally(() => {
+      setIsLoading(false);
+    })
   }
 
   const removeFromCart = () => {
-    request(MethodType.DELETE, `cart/${chatId}/items/${product.id}`, {}, result => {
-      setCount(result?.cartItems.find((item: any) => item.item_id === product.id)?.quantity ?? 0)
-      setCart(result)
-    });
+    // setIsLoading(true);
+    // request(MethodType.DELETE, `cart/${chatId}/items/${product.id}`, {}, result => {
+    //   setCount(result?.cartItems.find((item: any) => item.item_id === product.id)?.quantity ?? 0)
+    //   setCart(result)
+    //   setCount((prev: number) => prev - 1);
+    //   setIsLoading(false);
+    // });
+
+    setIsLoading(true);
+    axios.delete(`${url}cart/${chatId}/items/${product.id}`).then(result => {
+      console.log(result.data)
+      setCount(result?.data?.cartItems.find((item: any) => item.item_id === product.id)?.quantity ?? 0)
+      setCart(result.data)
+    }).finally(() => {
+      setIsLoading(false);
+    })
+
   }
 
   const handleClickIncrement = (e: any) => {
     e.stopPropagation();
-    setIsLoading(true);
-    setTimeout(() => {
       addToCart()
-      // setCount((prev: number) => prev + 1);
-      setIsLoading(false);
-    }, 1000)
-
-
   };
 
   const handleClickDecrement = (e: any) => {
     e.stopPropagation();
-    setIsLoading(true);
-    setTimeout(() => {
     removeFromCart()
-      setCount((prev: number) => prev - 1);
-      setIsLoading(false);
-    }, 1000)
-
   };
 
   const handleClickAddToCart = (e: any) => {
     e.stopPropagation();
-    setIsLoading(true);
-    setTimeout(() => {
       addToCart()
-      // setCount(1);
-      setIsLoading(false);
-    }, 1000)
   };
 
   useLayoutEffect(() => {

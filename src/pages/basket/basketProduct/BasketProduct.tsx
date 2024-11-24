@@ -2,6 +2,7 @@ import "../basketStyles.scss";
 import {useState} from "react";
 import products from "../../../components/Products/Products";
 import {MethodType, request} from "../../../data/data";
+import axios from "axios";
 
 export default function BasketProduct({
   product, setCart
@@ -19,40 +20,72 @@ export default function BasketProduct({
 
     const chatId = 795363892
 
-  const handleClickIncrement = (e: any) => {
+    const url = 'https://24autoposter.ru/vkusnaya_argentina/shop/';
+
+
+    const handleClickIncrement = (e: any) => {
     e.stopPropagation();
-    setIsLoading(true);
-    setTimeout(() => {
         addToCart();
-      setIsLoading(false);
-    }, 1000);
   };
 
   const handleClickDecrement = (e: any) => {
     e.stopPropagation();
     if (product.quantity > 0) {
-      setIsLoading(true);
-      setTimeout(() => {
           removeFromCart();
-        setIsLoading(false);
-      }, 1000);
     }
   };
 
     const addToCart = () => {
-        request(MethodType.PUT, 'cart', {
+        // setIsLoading(true);
+        // request(MethodType.PUT, 'cart', {
+        //     "chat_id": chatId,
+        //     "item_id": product.item_id
+        // }, result => {
+        //     setCart(result)
+        //     setIsLoading(false);
+        // });
+        setIsLoading(true);
+        axios.put(`${url}cart`, {
             "chat_id": chatId,
-            "item_id": product.item_id
-        }, result => setCart(result));
+            "item_id": product.item_id,
+        }).then(result => {
+            setCart(result.data)
+        }).finally(() => {
+            setIsLoading(false);
+        })
 
     }
 
     const removeFromCart = () => {
-        request(MethodType.DELETE, `cart/${chatId}/items/${product.item_id}`, {}, result => setCart(result));
+        // setIsLoading(true);
+        // request(MethodType.DELETE, `cart/${chatId}/items/${product.item_id}`, {}, result => {
+        //     setCart(result)
+        //     setIsLoading(false);
+        // });
+
+        setIsLoading(true);
+        axios.delete(`${url}cart/${chatId}/items/${product.item_id}`).then(result => {
+            console.log(result.data)
+            setCart(result.data)
+        }).finally(() => {
+            setIsLoading(false);
+        })
     }
 
     const removeProductFromCart = () => {
-        request(MethodType.DELETE, `cart/${chatId}/items/${product.item_id}/group`, {}, result => setCart(result));
+        // setIsLoading(true);
+        // request(MethodType.DELETE, `cart/${chatId}/items/${product.item_id}/group`, {}, result => {
+        //     setCart(result)
+        //     setIsLoading(false);
+        // });
+
+        setIsLoading(true);
+        axios.delete(`${url}cart/${chatId}/items/${product.item_id}/group`).then(result => {
+            console.log(result.data)
+            setCart(result.data)
+        }).finally(() => {
+            setIsLoading(false);
+        })
     }
 
 
