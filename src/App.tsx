@@ -49,6 +49,9 @@ function App() {
       console.error("Не удалось извлечь параметры из URL");
     }
   });
+
+  console.log("ssssssssssssssssssssssss");
+
   return (
     <div className="App">
       <Routes />
