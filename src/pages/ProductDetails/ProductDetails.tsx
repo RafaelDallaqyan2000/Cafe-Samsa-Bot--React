@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BusketButton from "../../components/BusketButton/BusketButton";
-import { MethodType, request } from "../../data/data";
+import { currency, MethodType, request } from "../../data/data";
 import "./productStyles.scss";
 
 export default function ProductDetails({ chatId }: { chatId: number }) {
@@ -144,7 +144,9 @@ export default function ProductDetails({ chatId }: { chatId: number }) {
           style={{ width: "100%", height: "300px", objectFit: "contain" }}
         />
         <div className="text__container">
-          <h1>egp. {productData.price}</h1>
+          <h1>
+            {currency} {productData.price}
+          </h1>
           <p className="title">{productData.name}</p>
           <p>{productData.description}</p>
         </div>
@@ -155,7 +157,9 @@ export default function ProductDetails({ chatId }: { chatId: number }) {
         </button>
       ) : (
         <div className="add-to-busket__container">
-          <p>egp. {price}</p>
+          <p>
+            {currency} {price}
+          </p>
 
           <div className={`count_container ${count && "loading_buttons"}`}>
             {isLoading ? (

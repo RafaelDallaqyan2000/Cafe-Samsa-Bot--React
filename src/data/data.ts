@@ -105,8 +105,8 @@ export const request = (
   if (method !== MethodType.GET) {
     requestOptions.body = raw;
   }
-    const url = 'https://24autoposter.ru/vkusnaya_argentina/shop/' + requestUrl;
-    // const url = 'http://localhost:4000/' + requestUrl;
+  const url = "https://24autoposter.ru/vkusnaya_argentina/shop/" + requestUrl;
+  // const url = 'http://localhost:4000/' + requestUrl;
 
   fetch(url, requestOptions)
     .then((response) => response.json())
@@ -114,13 +114,12 @@ export const request = (
     .catch((error) => console.error(error));
 };
 
-
-export const isTimeInRange = (startTime:string, endTime:string) => {
+export const isTimeInRange = (startTime: string, endTime: string) => {
   const now = new Date();
   const currentTime = now.getHours() * 60 + now.getMinutes(); // Current time in minutes
 
-  const [startHour, startMinute] = startTime.split(':').map(Number);
-  const [endHour, endMinute] = endTime.split(':').map(Number);
+  const [startHour, startMinute] = startTime.split(":").map(Number);
+  const [endHour, endMinute] = endTime.split(":").map(Number);
 
   const start = startHour * 60 + startMinute; // Start time in minutes
   const end = endHour * 60 + endMinute; // End time in minutes
@@ -130,4 +129,6 @@ export const isTimeInRange = (startTime:string, endTime:string) => {
   } else {
     return currentTime >= start || currentTime <= end;
   }
-}
+};
+
+export let currency = "egp.";
