@@ -44,19 +44,21 @@ function Home({ userData }: any) {
   };
 
   useEffect(() => {
-    request(MethodType.GET, "showcase/main", {}, (response) => {
-      setCategories(response?.categories ?? initialData.categories ?? []);
-      setItems(response?.items ?? initialData.items ?? []);
-    });
+    if (userData?.id) {
+      request(MethodType.GET, "showcase/main", {}, (response) => {
+        setCategories(response?.categories ?? initialData.categories ?? []);
+        setItems(response?.items ?? initialData.items ?? []);
+      });
 
-    request(
-      MethodType.POST,
-      "cart",
-      {
-        chat_id: chatId,
-      },
-      (result) => setCart(result)
-    );
+      request(
+        MethodType.POST,
+        "cart",
+        {
+          chat_id: chatId,
+        },
+        (result) => setCart(result)
+      );
+    }
   }, [navigate]);
 
   return (
