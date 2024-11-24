@@ -10,6 +10,8 @@ import PlaceOrder from "../pages/PlaceOrder/PlaceOrder";
 import Home from "../pages/home/Home";
 
 export function Routes({ userData }: { userData: any }) {
+  console.log(userData, "<<<");
+
   const routes = createBrowserRouter(
     createRoutesFromElements(
       <Route>

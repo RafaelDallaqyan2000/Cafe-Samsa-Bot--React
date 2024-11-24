@@ -1,6 +1,6 @@
 import { Routes } from "./routes/Routes";
 import "./App.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [userData, setUserData] = useState("");
@@ -30,22 +30,23 @@ function App() {
 
   const params = parseUrlParams();
 
-  if (params) {
-    if (params.user) {
-      try {
-        const userJson = decodeURIComponent(params.user);
-        const user = JSON.parse(userJson);
-        setUserData(user);
-        console.log("Данные пользователя:", user);
-      } catch (e) {
-        console.error("Ошибка при разборе данных пользователя:", e);
+  useEffect(() => {
+    if (params) {
+      if (params.user) {
+        try {
+          const userJson = decodeURIComponent(params.user);
+          const user = JSON.parse(userJson);
+          setUserData(user);
+        } catch (e) {
+          console.error("Ошибка при разборе данных пользователя:", e);
+        }
+      } else {
+        console.error("Параметр user отсутствует в tgWebAppData");
       }
     } else {
-      console.error("Параметр user отсутствует в tgWebAppData");
+      console.error("Не удалось извлечь параметры из URL");
     }
-  } else {
-    console.error("Не удалось извлечь параметры из URL");
-  }
+  }, [params]);
 
   return (
     <div className="App">
