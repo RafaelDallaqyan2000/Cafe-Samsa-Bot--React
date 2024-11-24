@@ -17,7 +17,7 @@ export default function EveryProduct({
 
   const getCartData = () => {
     setCount(
-      cart?.cartItems.find((item: any) => item.item_id === product.id)
+      cart?.cartItems?.find((item: any) => item?.item_id === product?.id)
         ?.quantity ?? 0
     );
     // request(MethodType.POST, 'cart', {
@@ -44,8 +44,8 @@ export default function EveryProduct({
       })
       .then((result) => {
         setCount(
-          result?.data?.cartItems.find(
-            (item: any) => item.item_id === product.id
+          result?.data?.cartItems?.find(
+            (item: any) => item?.item_id === product?.id
           )?.quantity ?? 0
         );
         setCart(result.data);
