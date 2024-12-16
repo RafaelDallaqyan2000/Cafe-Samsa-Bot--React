@@ -116,6 +116,7 @@ export const request = (
 
 export const isTimeInRange = (startTime: string, endTime: string) => {
   const now = new Date();
+
   const currentTime = now.getHours() * 60 + now.getMinutes(); // Current time in minutes
 
   const [startHour, startMinute] = startTime.split(":").map(Number);
